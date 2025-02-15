@@ -10,5 +10,5 @@ create-app/
 │       ├── src/
 │       ├── public/
 │       └── package.json
-└── root
+└── index.js         # CLI logic
 ```

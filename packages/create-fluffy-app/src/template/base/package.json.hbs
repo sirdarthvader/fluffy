@@ -1,0 +1,12 @@
+{ "name": "{{projectName}}", "version": "0.1.0", "scripts": { "dev": "fluffy
+dev", "build": "fluffy build", "start": "fluffy start" }, "dependencies": {
+{{#if useTailwind}}, "tailwindcss": "^3.3.0", "postcss": "^8.4.0",
+  "autoprefixer": "^10.0.0"{{/if}}
+}, "devDependencies": {
+{{#if useTS}}
+  "typescript": "^5.0.0", "@types/node": "^20.0.0"{{#if
+    useEslint
+  }},{{/if}}{{/if}}
+{{#if useEslint}}
+  "eslint": "^8.0.0", "eslint-config-fluffy": "workspace:*"{{/if}}
+} }
