@@ -21,11 +21,6 @@ import { ProjectOptionsSchema } from "./schemas.js";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 async function main() {
-  intro(
-    rainbow.multiline(
-      figlet.textSync("Create Fluffy App", { font: "Big Money-ne" })
-    )
-  );
   console.log("\n");
   console.log(
     mind(figlet.textSync("Create Fluffy App", { font: "Big Money-ne" }))
@@ -92,10 +87,10 @@ async function main() {
   s.start("Scaffolding project, please wait...");
 
   try {
-    const templateDir = path.join(__dirname, "templates/base");
+    const templateDir = path.join(__dirname, "..", "src/template/base");
     const outputDir = path.join(process.cwd(), projectName);
 
-    // await fs.copy(templateDir, outputDir);
+    await fs.copy(templateDir, outputDir);
 
     // Process template files
     const templateData = {
@@ -106,7 +101,7 @@ async function main() {
       usePrettier: config.data?.features.includes("prettier"),
     };
 
-    // await processTemplates(outputDir, templateData);
+    await processTemplates(outputDir, templateData);
 
     s.stop("Project created");
     outro(
