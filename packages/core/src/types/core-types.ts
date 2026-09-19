@@ -1,5 +1,6 @@
 export interface FluffyRoute {
   path: string;
+  clientPath: string;
   component: string;
   isSSR: boolean;
 }

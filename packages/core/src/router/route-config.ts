@@ -1,5 +1,5 @@
 import { lazy } from "react";
-import { FluffyRoute } from "../types/core-types";
+import { FluffyRoute } from "../types/core-types.js";
 
 export function createRouteObjects(routes: FluffyRoute[]) {
   return routes.map((route) => ({

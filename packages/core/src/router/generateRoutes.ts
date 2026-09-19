@@ -1,8 +1,11 @@
 import fs from "fs";
 import path from "path";
-import { FluffyRoute } from "../types/core-types";
+import { FluffyRoute } from "../types/core-types.js";
 
-export function generateRoutes(pagesDir: string): FluffyRoute[] {
+export function generateRoutes(
+  pagesDir: string,
+  appRoot = process.cwd()
+): FluffyRoute[] {
   const routes: FluffyRoute[] = [];
 
   function walk(dir: string, base = "") {
@@ -16,9 +19,12 @@ export function generateRoutes(pagesDir: string): FluffyRoute[] {
         walk(fullPath, routePath);
       } else if (/\.(t|j)sx?$/.test(entry.name)) {
         const normalizedPath = convertToRoutePath(routePath);
+        const relativeToRoot = path.relative(appRoot, fullPath);
+
         routes.push({
           path: normalizedPath,
           component: fullPath,
+          clientPath: `/${toPosixPath(relativeToRoot)}`,
           isSSR: checkForSSRExport(fullPath),
         });
       }
@@ -32,15 +38,24 @@ export function generateRoutes(pagesDir: string): FluffyRoute[] {
 }
 
 function convertToRoutePath(filePath: string): string {
-  return filePath
-    .replace(/\/index\.(t|j)sx?$/, "")
-    .replace(/\.(t|j)sx?$/, "")
-    .replace(/\[(.*?)\]/g, ":$1")
-    .replace(/\/_/g, "/:") // Handle catch-all segments
-    .replace(/\*/g, ".*"); // Support wildcard routes
+  const withoutExtension = toPosixPath(filePath).replace(/\.(t|j)sx?$/, "");
+  const withoutIndex =
+    withoutExtension === "index"
+      ? ""
+      : withoutExtension.replace(/\/index$/, "");
+
+  const routePath = withoutIndex
+    .replace(/\[\.\.\.(.*?)\]/g, "*")
+    .replace(/\[(.*?)\]/g, ":$1");
+
+  return routePath ? `/${routePath}` : "/";
 }
 
 function checkForSSRExport(filePath: string): boolean {
   const content = fs.readFileSync(filePath, "utf-8");
   return /export\s+(const|async function)\s+getServerProps/.test(content);
+}
+
+function toPosixPath(filePath: string): string {
+  return filePath.split(path.sep).join("/");
 }

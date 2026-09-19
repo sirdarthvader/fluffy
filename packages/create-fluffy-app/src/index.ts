@@ -94,7 +94,7 @@ async function main() {
 
     // Process template files
     const templateData = {
-      projecName: config.data?.projectName,
+      projectName: config.data?.projectName,
       useTS: config.data?.features.includes("typescript"),
       useTailwind: config.data?.features.includes("tailwindcss"),
       useEslint: config.data?.features.includes("eslint"),

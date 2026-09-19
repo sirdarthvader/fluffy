@@ -1,14 +1,10 @@
-import { FC } from 'react';
-
-const HomePage: FC = () => {
+export default function HomePage() {
   return (
     <div className="{{#if useTailwind}}p-4 bg-gray-100{{/if}}">
       <h1>Welcome to {{projectName}}!</h1>
       {{#if useTS}}
-      <p>TypeScript is enabled!! 🎉</p>
+      <p>TypeScript is enabled.</p>
       {{/if}}
     </div>
   );
-};
-
-export default HomePage;
+}
