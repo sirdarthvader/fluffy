@@ -1,0 +1,20 @@
+{
+  "name": "minimal-fluffy-app",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "fluffy dev --port 3210"
+  },
+  "dependencies": {
+    "@fluffy/cli": "workspace:*",
+    "@fluffy/core": "workspace:*",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "typescript": "^5.0.0"
+  }
+}

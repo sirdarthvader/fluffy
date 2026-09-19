@@ -91,6 +91,7 @@ A developer can scaffold a Fluffy app, run it locally, render a file-based route
 - Support one server-rendered React route end to end.
 - Keep the route module interface small.
 - Document the working path from scaffold to local dev server.
+- Keep `examples/minimal` as the permanent fixture for Phase 1 behavior.
 
 ### Out Of Scope
 
@@ -109,6 +110,7 @@ A developer can scaffold a Fluffy app, run it locally, render a file-based route
 
 - `pnpm build`
 - `pnpm typecheck`
+- `pnpm smoke:minimal`
 - Create a fresh app with `create-fluffy-app`.
 - Run the generated app with `fluffy dev`.
 - Open the app in a browser and confirm the route is server-rendered and hydrated.

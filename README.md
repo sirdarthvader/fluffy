@@ -48,6 +48,18 @@ pnpm build
 pnpm typecheck
 ```
 
+Run the permanent minimal app fixture:
+
+```sh
+pnpm dev:minimal
+```
+
+Smoke-test the framework against that app:
+
+```sh
+pnpm smoke:minimal
+```
+
 ## Why This Exists
 
 Frameworks can feel mysterious because many concepts arrive bundled together. Fluffy is a place to pull those concepts apart, implement them deliberately, and write about each phase as it becomes real.
