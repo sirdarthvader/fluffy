@@ -3,7 +3,7 @@
  *
  * The active Phase 1 dev server does not use this file; it renders and
  * hydrates the matched page component directly. Keep this file documented
- * until we either remove it or reintroduce a client router in a later phase.
+ * until we either remove it or reintroduce a client router at a later phase.
  */
 import { ComponentType, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";

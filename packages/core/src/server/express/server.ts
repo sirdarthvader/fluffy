@@ -13,7 +13,7 @@ import path from "path";
 import react from "@vitejs/plugin-react";
 import { createServer as createViteServer, ViteDevServer } from "vite";
 import { generateRoutes } from "../../router/generateRoutes";
-import { FluffyConfig, FluffyRoute } from "../../types/core-types";
+import type { FluffyConfig, FluffyRoute } from "../../types/core-types";
 import { renderFluffyApp } from "../renderer";
 
 /**
@@ -135,7 +135,7 @@ hydrateRoot(document.getElementById("root"), React.createElement(Page));
 async function renderDocument(
   url: string,
   appHtml: string,
-  vite: ViteDevServer
+  vite: ViteDevServer,
 ) {
   const html = `<!DOCTYPE html>
 <html>
