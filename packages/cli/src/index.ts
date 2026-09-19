@@ -41,6 +41,9 @@ async function runDev(args: string[]) {
   await devServer.listen();
 
   s.stop("Dev server started");
+  if (devServer.port !== port) {
+    log.warn(`Port ${port} was busy, so Fluffy used ${devServer.port}.`);
+  }
   outro(`Ready at http://localhost:${devServer.port}`);
 }
 

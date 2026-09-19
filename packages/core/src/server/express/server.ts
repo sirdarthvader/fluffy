@@ -24,9 +24,8 @@ export async function createFluffyDevServer(config: FluffyConfig = {}) {
   const app = express();
   const server = createServer(app);
   const pagesDir = path.resolve(appRoot, config.pagesDir || "src/pages");
-  const port = config.port || 3000;
-
-  await assertPortAvailable(port);
+  const requestedPort = config.port || 3000;
+  const port = await findAvailablePort(requestedPort);
 
   const vite = await createViteServer({
     root: appRoot,
@@ -49,6 +48,9 @@ export async function createFluffyDevServer(config: FluffyConfig = {}) {
     ],
     server: {
       middlewareMode: true,
+      hmr: {
+        port: port + 10000,
+      },
     },
   });
 
@@ -93,18 +95,30 @@ export async function createFluffyDevServer(config: FluffyConfig = {}) {
 export const createExpressServer = createFluffyDevServer;
 
 /**
- * Fail before Vite starts if the app port is already occupied.
+ * Find the requested dev-server port or the next free port after it.
  */
-function assertPortAvailable(port: number) {
-  return new Promise<void>((resolve, reject) => {
+async function findAvailablePort(port: number): Promise<number> {
+  if (port > 65535) {
+    throw new Error("No available port found.");
+  }
+
+  if (await isPortAvailable(port)) {
+    return port;
+  }
+
+  return findAvailablePort(port + 1);
+}
+
+function isPortAvailable(port: number) {
+  return new Promise<boolean>((resolve) => {
     const probe = createServer();
 
     probe.once("error", () => {
-      reject(new Error(`Port ${port} is already in use.`));
+      resolve(false);
     });
 
     probe.listen(port, () => {
-      probe.close(() => resolve());
+      probe.close(() => resolve(true));
     });
   });
 }
