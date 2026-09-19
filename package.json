@@ -1,14 +1,23 @@
 {
   "name": "fluffy",
+  "private": true,
   "description": "",
   "main": "index.js",
   "scripts": {
     "dev": "turbo run dev --parallel",
+    "predev:example": "node scripts/build-framework.mjs",
+    "dev:example": "pnpm --silent --filter fluffy-example-app dev",
+    "smoke:example": "node scripts/smoke-example-app.mjs",
     "build": "turbo run build",
     "typecheck": "turbo run typecheck",
-    "lint": "turbo run lint"
+    "version-packages": "changeset version",
+    "release": "pnpm build && changeset publish",
+    "lint": "oxlint . --deny-warnings",
+    "fix": "prettier . --write && oxlint . --fix",
+    "format": "prettier . --write",
+    "format:check": "prettier . --check"
   },
-  "packageManager": "pnpm@10.0.0",
+  "packageManager": "pnpm@10.32.1",
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -17,6 +26,8 @@
     "@types/express": "^5.0.0",
     "@types/react-dom": "^19.0.3",
     "@types/react-router-dom": "^5.3.3",
+    "oxlint": "^1.83.0",
+    "prettier": "^3.9.7",
     "turbo": "^2.4.1",
     "vite": "^6.1.0"
   }

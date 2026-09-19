@@ -1,60 +1,234 @@
+/**
+ * Development server for Fluffy apps.
+ *
+ * This is the current Phase 1 runtime:
+ * 1. discover routes from `src/pages`
+ * 2. let Vite load the matched page module for SSR
+ * 3. render the page to HTML
+ * 4. serve a generated browser entry that hydrates the same page
+ */
 import express from "express";
 import { createServer } from "http";
 import path from "path";
+import react from "@vitejs/plugin-react";
+import { createServer as createViteServer, ViteDevServer } from "vite";
+import { generateRoutes } from "../../router/generateRoutes";
+import type { FluffyConfig, FluffyRoute } from "../../types/core-types";
 import { renderFluffyApp } from "../renderer";
-import { FluffyConfig } from "../../types/core-types";
-import { generateRoutes } from "@router/generateRoutes";
 
-export async function createExpressServer(config: FluffyConfig) {
+/**
+ * Create a local dev server for the app in the current working directory.
+ */
+export async function createFluffyDevServer(config: FluffyConfig = {}) {
+  const appRoot = process.cwd();
   const app = express();
   const server = createServer(app);
-  const isProd = process.env.NODE_ENV === "production";
-  const pagesDir = path.resolve(process.cwd(), config.pagesDir || "src/pages");
+  const pagesDir = path.resolve(appRoot, config.pagesDir || "src/pages");
+  const requestedPort = config.port || 3000;
+  const port = await findAvailablePort(requestedPort);
 
-  // Production: Serve static assets
-  if (isProd) {
-    app.use(express.static(path.join(process.cwd(), "dist/client")));
-  }
+  const vite = await createViteServer({
+    root: appRoot,
+    appType: "custom",
+    plugins: [
+      react(),
+      {
+        name: "fluffy-client-entry",
+        resolveId(id) {
+          if (id === "/@fluffy/client-entry") {
+            return "\0fluffy/client-entry";
+          }
+        },
+        load(id) {
+          if (id === "\0fluffy/client-entry") {
+            return createClientEntry(generateRoutes(pagesDir, appRoot));
+          }
+        },
+      },
+    ],
+    server: {
+      middlewareMode: true,
+      hmr: {
+        port: port + 10000,
+      },
+    },
+  });
 
-  // Apply production/development middlewares
-  if (isProd) {
-    await applyProdMiddlewares(app, pagesDir);
-  } else {
-    await applyDevMiddlewares(app);
-  }
+  app.use(vite.middlewares);
 
-  // Handle all routes
   app.get("*", async (req, res) => {
     try {
-      const routes = generateRoutes(pagesDir);
-      const { pipe, ssrData } = await renderFluffyApp(req.url, routes);
+      const routes = generateRoutes(pagesDir, appRoot);
+      const route = matchRoute(req.path, routes);
 
-      res.setHeader("Content-Type", "text/html");
-      res.write("<!DOCTYPE html><html><head><script>window.__SSR_DATA__ = ");
-      res.write(JSON.stringify(ssrData).replace(/</g, "\\u003c"));
-      res.write('</script></head><body><div id="root">');
+      if (!route) {
+        res.status(404).send("Not found");
+        return;
+      }
 
-      pipe(res);
-      res.write('</div><script src="/client.js"></script></body></html>');
+      const pageModule = await vite.ssrLoadModule(route.component);
+      const { html } = await renderFluffyApp(pageModule, route);
+      const document = await renderDocument(req.originalUrl, html, vite);
+
+      res.status(200).setHeader("Content-Type", "text/html").end(document);
     } catch (error) {
-      res.status(500).send(`<pre>${error}</pre>`);
+      vite.ssrFixStacktrace(error as Error);
+      res.status(500).end(`<pre>${escapeHtml(String(error))}</pre>`);
     }
   });
 
-  return server;
+  return {
+    listen() {
+      return new Promise<void>((resolve, reject) => {
+        server.once("error", reject);
+        server.listen(port, () => {
+          server.off("error", reject);
+          resolve();
+        });
+      });
+    },
+    port,
+    server,
+  };
 }
 
-async function applyProdMiddlewares(app: express.Express, pagesDir: string) {
-  const manifest = await import(
-    path.join(process.cwd(), "dist/client/ssr-manifest.json")
-  );
-  app.locals.manifest = manifest;
+export const createExpressServer = createFluffyDevServer;
+
+/**
+ * Find the requested dev-server port or the next free port after it.
+ */
+async function findAvailablePort(port: number): Promise<number> {
+  if (port > 65535) {
+    throw new Error("No available port found.");
+  }
+
+  if (await isPortAvailable(port)) {
+    return port;
+  }
+
+  return findAvailablePort(port + 1);
 }
 
-async function applyDevMiddlewares(app: express.Express) {
-  const { createViteDevMiddleware } = await import("../vite/dev-server");
-  const vite = await createViteDevMiddleware();
-  app.use(vite.middlewares);
+/**
+ * TODO: Figure out if the port was busy, was it because the same app was already running?
+ * If so, we should probably just reuse that server instead of starting a new one.
+ * Why would we want to start a new server if the same app is already running?
+ * It would be confusing to have two servers running on different ports for the same app.
+ */
+function isPortAvailable(port: number) {
+  return new Promise<boolean>((resolve) => {
+    const probe = createServer();
+
+    probe.once("error", () => {
+      resolve(false);
+    });
+
+    probe.listen(port, () => {
+      probe.close(() => resolve(true));
+    });
+  });
 }
 
-// FLUFFY_PAGES_DIR=src/pages NODE_ENV=development node --loader ts-node/esm ./src/server/express/server.ts
+/**
+ * Generate the browser entry module for the current route manifest.
+ *
+ * Vite transforms this string as a virtual module, so `import.meta.glob`
+ * becomes concrete imports for the app's page files.
+ */
+function createClientEntry(routes: FluffyRoute[]) {
+  const clientRoutes = routes.map(({ path, clientPath }) => ({
+    path,
+    clientPath,
+  }));
+
+  return `
+import React from "react";
+import { hydrateRoot } from "react-dom/client";
+
+const modules = import.meta.glob("/src/pages/**/*.{js,jsx,ts,tsx}", { eager: true });
+const routes = ${JSON.stringify(clientRoutes)};
+
+function matchRoute(pathname) {
+  return routes.find((route) => routeToRegex(route.path).test(pathname));
+}
+
+function routeToRegex(routePath) {
+  const pattern = routePath
+    .replace(/\\\\/g, "/")
+    .replace(/:[^/]+/g, "[^/]+")
+    .replace(/\\*/g, ".*");
+  return new RegExp("^" + pattern + "$");
+}
+
+const route = matchRoute(window.location.pathname);
+const pageModule = route ? modules[route.clientPath] : null;
+const Page = pageModule && pageModule.default;
+
+if (!Page) {
+  throw new Error("Fluffy could not find a page component for " + window.location.pathname);
+}
+
+hydrateRoot(document.getElementById("root"), React.createElement(Page));
+`;
+}
+
+/**
+ * Wrap server-rendered page HTML in the minimal document needed for hydration.
+ */
+async function renderDocument(url: string, appHtml: string, vite: ViteDevServer) {
+  const html = `<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fluffy App</title>
+  </head>
+  <body>
+    <div id="root">${appHtml}</div>
+    <script type="module" src="/@fluffy/client-entry"></script>
+  </body>
+</html>`;
+
+  return vite.transformIndexHtml(url, html);
+}
+
+/**
+ * Match a request path against the file-based route manifest.
+ */
+function matchRoute(pathname: string, routes: FluffyRoute[]) {
+  return routes.find((route) => routeToRegex(route.path).test(pathname));
+}
+
+/**
+ * Convert Fluffy's `:param` and `*` path syntax into a simple matcher.
+ */
+function routeToRegex(routePath: string) {
+  const pattern = routePath
+    .replace(/\\/g, "/")
+    .replace(/:[^/]+/g, "[^/]+")
+    .replace(/\*/g, ".*");
+
+  return new RegExp(`^${pattern}$`);
+}
+
+/**
+ * Escape server error text before writing it into a development error page.
+ */
+function escapeHtml(value: string) {
+  return value.replace(/[&<>"']/g, (character) => {
+    switch (character) {
+      case "&":
+        return "&amp;";
+      case "<":
+        return "&lt;";
+      case ">":
+        return "&gt;";
+      case '"':
+        return "&quot;";
+      case "'":
+        return "&#39;";
+      default:
+        return character;
+    }
+  });
+}

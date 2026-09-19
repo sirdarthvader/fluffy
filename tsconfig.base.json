@@ -7,7 +7,7 @@
     "moduleResolution": "node",
     "baseUrl": ".",
     "paths": {
-      "@fluffy/*": ["packages/*/src"]
+      "@fluffy/*": ["packages/*/src/index.ts"]
     }
   }
 }
