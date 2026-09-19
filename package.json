@@ -4,7 +4,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "turbo run dev --parallel",
-    "dev:example": "pnpm --filter @fluffy/core build && pnpm --filter @fluffy/cli build && pnpm --filter fluffy-example-app dev",
+    "predev:example": "node scripts/build-framework.mjs",
+    "dev:example": "pnpm --silent --filter fluffy-example-app dev",
     "smoke:example": "node scripts/smoke-example-app.mjs",
     "build": "turbo run build",
     "typecheck": "turbo run typecheck",

@@ -1,10 +1,10 @@
-import { execFileSync, spawn } from "node:child_process";
+import { spawn } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { setTimeout as delay } from "node:timers/promises";
+import { buildFramework } from "./build-framework.mjs";
 
 const port = 3211;
 const baseUrl = `http://127.0.0.1:${port}`;
-const repoRoot = fileURLToPath(new URL("..", import.meta.url));
 const exampleAppRoot = fileURLToPath(new URL("../examples/minimal", import.meta.url));
 
 run().catch((error) => {
@@ -15,12 +15,7 @@ run().catch((error) => {
 async function run() {
   console.log("Example app smoke test\n");
 
-  await runStep("Build @fluffy/core", () =>
-    runCommand("pnpm", ["--filter", "@fluffy/core", "build"])
-  );
-  await runStep("Build @fluffy/cli", () =>
-    runCommand("pnpm", ["--filter", "@fluffy/cli", "build"])
-  );
+  buildFramework();
 
   const server = spawn(
     "node",
@@ -40,23 +35,23 @@ async function run() {
   });
 
   try {
-    await runStep("Start example app dev server", () =>
+    await runAsyncStep("Start example app dev server", () =>
       waitForServer(baseUrl, server, () => output)
     );
 
     const html = await fetchText(`${baseUrl}/`);
-    await runStep("Assert server-rendered page HTML", () =>
+    await runAsyncStep("Assert server-rendered page HTML", () =>
       assertIncludes(html, "<h1>Fluffy Example App</h1>", "server-rendered page")
     );
-    await runStep("Assert HTML includes hydration script", () =>
+    await runAsyncStep("Assert HTML includes hydration script", () =>
       assertIncludes(html, "/@fluffy/client-entry", "hydration script")
     );
 
     const clientEntry = await fetchText(`${baseUrl}/@fluffy/client-entry`);
-    await runStep("Assert hydration entry calls hydrateRoot", () =>
+    await runAsyncStep("Assert hydration entry calls hydrateRoot", () =>
       assertIncludes(clientEntry, "hydrateRoot", "hydration entry")
     );
-    await runStep("Assert hydration entry imports the page module", () =>
+    await runAsyncStep("Assert hydration entry imports the page module", () =>
       assertIncludes(clientEntry, "/src/pages/index.tsx", "page module import")
     );
 
@@ -66,20 +61,7 @@ async function run() {
   }
 }
 
-function runCommand(command, args) {
-  try {
-    execFileSync(command, args, {
-      cwd: repoRoot,
-      stdio: "pipe",
-      encoding: "utf8",
-    });
-  } catch (error) {
-    const output = [error.stdout, error.stderr].filter(Boolean).join("\n");
-    throw new Error(`${command} ${args.join(" ")} failed\n${output}`);
-  }
-}
-
-async function runStep(label, action) {
+async function runAsyncStep(label, action) {
   process.stdout.write(`- ${label}... `);
   await action();
   console.log("ok");

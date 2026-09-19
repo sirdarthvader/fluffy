@@ -26,6 +26,8 @@ export async function createFluffyDevServer(config: FluffyConfig = {}) {
   const pagesDir = path.resolve(appRoot, config.pagesDir || "src/pages");
   const port = config.port || 3000;
 
+  await assertPortAvailable(port);
+
   const vite = await createViteServer({
     root: appRoot,
     appType: "custom",
@@ -75,8 +77,12 @@ export async function createFluffyDevServer(config: FluffyConfig = {}) {
 
   return {
     listen() {
-      return new Promise<void>((resolve) => {
-        server.listen(port, () => resolve());
+      return new Promise<void>((resolve, reject) => {
+        server.once("error", reject);
+        server.listen(port, () => {
+          server.off("error", reject);
+          resolve();
+        });
       });
     },
     port,
@@ -85,6 +91,23 @@ export async function createFluffyDevServer(config: FluffyConfig = {}) {
 }
 
 export const createExpressServer = createFluffyDevServer;
+
+/**
+ * Fail before Vite starts if the app port is already occupied.
+ */
+function assertPortAvailable(port: number) {
+  return new Promise<void>((resolve, reject) => {
+    const probe = createServer();
+
+    probe.once("error", () => {
+      reject(new Error(`Port ${port} is already in use.`));
+    });
+
+    probe.listen(port, () => {
+      probe.close(() => resolve());
+    });
+  });
+}
 
 /**
  * Generate the browser entry module for the current route manifest.
