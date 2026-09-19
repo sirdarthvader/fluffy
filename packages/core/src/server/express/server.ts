@@ -1,3 +1,12 @@
+/**
+ * Development server for Fluffy apps.
+ *
+ * This is the current Phase 1 runtime:
+ * 1. discover routes from `src/pages`
+ * 2. let Vite load the matched page module for SSR
+ * 3. render the page to HTML
+ * 4. serve a generated browser entry that hydrates the same page
+ */
 import express from "express";
 import { createServer } from "http";
 import path from "path";
@@ -7,6 +16,9 @@ import { generateRoutes } from "../../router/generateRoutes";
 import { FluffyConfig, FluffyRoute } from "../../types/core-types";
 import { renderFluffyApp } from "../renderer";
 
+/**
+ * Create a local dev server for the app in the current working directory.
+ */
 export async function createFluffyDevServer(config: FluffyConfig = {}) {
   const appRoot = process.cwd();
   const app = express();
@@ -74,6 +86,12 @@ export async function createFluffyDevServer(config: FluffyConfig = {}) {
 
 export const createExpressServer = createFluffyDevServer;
 
+/**
+ * Generate the browser entry module for the current route manifest.
+ *
+ * Vite transforms this string as a virtual module, so `import.meta.glob`
+ * becomes concrete imports for the app's page files.
+ */
 function createClientEntry(routes: FluffyRoute[]) {
   const clientRoutes = routes.map(({ path, clientPath }) => ({
     path,
@@ -111,6 +129,9 @@ hydrateRoot(document.getElementById("root"), React.createElement(Page));
 `;
 }
 
+/**
+ * Wrap server-rendered page HTML in the minimal document needed for hydration.
+ */
 async function renderDocument(
   url: string,
   appHtml: string,
@@ -132,10 +153,16 @@ async function renderDocument(
   return vite.transformIndexHtml(url, html);
 }
 
+/**
+ * Match a request path against the file-based route manifest.
+ */
 function matchRoute(pathname: string, routes: FluffyRoute[]) {
   return routes.find((route) => routeToRegex(route.path).test(pathname));
 }
 
+/**
+ * Convert Fluffy's `:param` and `*` path syntax into a simple matcher.
+ */
 function routeToRegex(routePath: string) {
   const pattern = routePath
     .replace(/\\/g, "/")
@@ -145,6 +172,9 @@ function routeToRegex(routePath: string) {
   return new RegExp(`^${pattern}$`);
 }
 
+/**
+ * Escape server error text before writing it into a development error page.
+ */
 function escapeHtml(value: string) {
   return value.replace(/[&<>"']/g, (character) => {
     switch (character) {

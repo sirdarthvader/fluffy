@@ -1,7 +1,16 @@
+/**
+ * Converts files in an app's `src/pages` directory into Fluffy route records.
+ *
+ * This is the first step in the framework pipeline:
+ * page files -> route manifest -> SSR match -> browser hydration match.
+ */
 import fs from "fs";
 import path from "path";
 import { FluffyRoute } from "../types/core-types";
 
+/**
+ * Walk the pages directory and return route records for every JS/TS page file.
+ */
 export function generateRoutes(
   pagesDir: string,
   appRoot = process.cwd()
@@ -51,6 +60,9 @@ function convertToRoutePath(filePath: string): string {
   return routePath ? `/${routePath}` : "/";
 }
 
+/**
+ * Phase 1 records this flag, but does not execute server data yet.
+ */
 function checkForSSRExport(filePath: string): boolean {
   const content = fs.readFileSync(filePath, "utf-8");
   return /export\s+(const|async function)\s+getServerProps/.test(content);
