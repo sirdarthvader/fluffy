@@ -76,12 +76,16 @@ pnpm smoke:example
 ## Releases
 
 Changesets drives package versioning and publishing. Merging a PR with a
-changeset into `main` opens or updates an automated version PR. Merging that
-version PR publishes any unpublished package versions to npm and pushes the
+changeset into `main` versions the packages and pushes the version commit back
+to `main` using the release GitHub App. That version commit triggers the release
+workflow again, publishes any unpublished package versions to npm, and pushes the
 release tags.
 
-The release workflow requires an `NPM_TOKEN` repository secret with publish
-access to the Fluffy packages.
+The release workflow requires:
+
+- an `NPM_TOKEN` repository secret with publish access to the Fluffy packages
+- an `APP_PRIVATE_KEY` repository secret for the release GitHub App
+- an `APP_ID` repository variable for the release GitHub App
 
 ## Why This Exists
 
