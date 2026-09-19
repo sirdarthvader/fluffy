@@ -73,6 +73,15 @@ Smoke-test the framework against that app:
 pnpm smoke:example
 ```
 
+## Releases
+
+Changesets drives package versioning and publishing. Merging a PR with a
+changeset into `main` opens a version PR. Merging that version PR publishes the
+packages to npm.
+
+The release workflow requires an `NPM_TOKEN` repository secret with publish
+access to the Fluffy packages.
+
 ## Why This Exists
 
 Frameworks can feel mysterious because many concepts arrive bundled together. Fluffy is a place to pull those concepts apart, implement them deliberately, and write about each phase as it becomes real.

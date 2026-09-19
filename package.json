@@ -1,5 +1,6 @@
 {
   "name": "fluffy",
+  "private": true,
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -9,6 +10,8 @@
     "smoke:example": "node scripts/smoke-example-app.mjs",
     "build": "turbo run build",
     "typecheck": "turbo run typecheck",
+    "version-packages": "changeset version",
+    "release": "pnpm build && changeset publish",
     "lint": "oxlint . --deny-warnings",
     "fix": "prettier . --write && oxlint . --fix",
     "format": "prettier . --write",
