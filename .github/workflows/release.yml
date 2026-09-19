@@ -86,7 +86,10 @@ jobs:
 
       - name: Push version commit
         if: steps.changesets.outputs.has_changesets == 'true'
-        run: git push origin HEAD:main
+        run: |
+          git fetch origin main
+          git rebase origin/main
+          git push origin HEAD:main
 
       - name: Publish packages
         if: steps.changesets.outputs.has_changesets == 'false'
