@@ -48,16 +48,16 @@ pnpm build
 pnpm typecheck
 ```
 
-Run the permanent minimal app fixture:
+Run the example app fixture:
 
 ```sh
-pnpm dev:minimal
+pnpm dev:example
 ```
 
 Smoke-test the framework against that app:
 
 ```sh
-pnpm smoke:minimal
+pnpm smoke:example
 ```
 
 ## Why This Exists

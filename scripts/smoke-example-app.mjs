@@ -5,7 +5,7 @@ import { setTimeout as delay } from "node:timers/promises";
 const port = 3211;
 const baseUrl = `http://127.0.0.1:${port}`;
 const repoRoot = fileURLToPath(new URL("..", import.meta.url));
-const minimalAppRoot = fileURLToPath(new URL("../examples/minimal", import.meta.url));
+const exampleAppRoot = fileURLToPath(new URL("../examples/minimal", import.meta.url));
 
 run().catch((error) => {
   console.error(`\nSmoke test failed:\n${error.message}`);
@@ -13,7 +13,7 @@ run().catch((error) => {
 });
 
 async function run() {
-  console.log("Minimal app smoke test\n");
+  console.log("Example app smoke test\n");
 
   await runStep("Build @fluffy/core", () =>
     runCommand("pnpm", ["--filter", "@fluffy/core", "build"])
@@ -26,7 +26,7 @@ async function run() {
     "node",
     ["../../packages/cli/dist/index.js", "dev", "--port", String(port)],
     {
-      cwd: minimalAppRoot,
+      cwd: exampleAppRoot,
       stdio: ["ignore", "pipe", "pipe"],
     }
   );
@@ -40,13 +40,13 @@ async function run() {
   });
 
   try {
-    await runStep("Start minimal app dev server", () =>
+    await runStep("Start example app dev server", () =>
       waitForServer(baseUrl, server, () => output)
     );
 
     const html = await fetchText(`${baseUrl}/`);
     await runStep("Assert server-rendered page HTML", () =>
-      assertIncludes(html, "<h1>Minimal Fluffy App</h1>", "server-rendered page")
+      assertIncludes(html, "<h1>Fluffy Example App</h1>", "server-rendered page")
     );
     await runStep("Assert HTML includes hydration script", () =>
       assertIncludes(html, "/@fluffy/client-entry", "hydration script")
@@ -60,7 +60,7 @@ async function run() {
       assertIncludes(clientEntry, "/src/pages/index.tsx", "page module import")
     );
 
-    console.log("\nMinimal app smoke test passed.");
+    console.log("\nExample app smoke test passed.");
   } finally {
     server.kill("SIGINT");
   }

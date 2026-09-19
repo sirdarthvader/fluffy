@@ -1,4 +1,4 @@
-# Minimal Fluffy App
+# Example App
 
 This app is the permanent Phase 1 fixture for Fluffy.
 
@@ -12,11 +12,11 @@ It should stay small until the framework is stable:
 Run it from the repository root:
 
 ```sh
-pnpm dev:minimal
+pnpm dev:example
 ```
 
 Smoke-test it from the repository root:
 
 ```sh
-pnpm smoke:minimal
+pnpm smoke:example
 ```

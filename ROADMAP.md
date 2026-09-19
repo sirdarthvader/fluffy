@@ -75,7 +75,7 @@ A developer can scaffold a Fluffy app, run it locally, render a file-based route
 
 ### Success Criteria
 
-- `create-fluffy-app` creates a minimal app with `src/pages/index.tsx`.
+- `create-fluffy-app` creates an app with `src/pages/index.tsx`.
 - The generated app installs and runs with documented commands.
 - `fluffy dev` starts the development server.
 - Files in `src/pages` are discovered as routes.
@@ -110,7 +110,7 @@ A developer can scaffold a Fluffy app, run it locally, render a file-based route
 
 - `pnpm build`
 - `pnpm typecheck`
-- `pnpm smoke:minimal`
+- `pnpm smoke:example`
 - Create a fresh app with `create-fluffy-app`.
 - Run the generated app with `fluffy dev`.
 - Open the app in a browser and confirm the route is server-rendered and hydrated.
@@ -137,7 +137,7 @@ Page modules can load server data and fail in understandable ways.
 
 ### In Scope
 
-- A minimal route data interface.
+- A small route data interface.
 - Request and params context for server data.
 - Safe data serialization.
 - Development error pages for route and data failures.
