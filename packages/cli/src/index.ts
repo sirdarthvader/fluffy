@@ -1,30 +1,76 @@
 #!/usr/bin/env node
 
-import { Command } from "commander";
+import { intro, outro, cancel, log, spinner } from "@clack/prompts";
 import { createFluffyDevServer } from "@fluffy/core";
 
-const program = new Command();
+const version = "0.0.1-alpha.0";
 
-program
-  .name("fluffy")
-  .description("Development CLI for Fluffy apps")
-  .version("0.0.1-alpha.0");
+main().catch((error) => {
+  cancel(error instanceof Error ? error.message : String(error));
+  process.exit(1);
+});
 
-program
-  .command("dev")
-  .description("Start development server")
-  .option("-p, --port <port>", "Port to run the dev server on", "3000")
-  .action(async (options: { port: string }) => {
-    const port = Number.parseInt(options.port, 10);
+async function main() {
+  const [command, ...args] = process.argv.slice(2);
 
-    if (Number.isNaN(port)) {
-      throw new Error(`Invalid port: ${options.port}`);
-    }
+  if (!command || command === "--help" || command === "-h") {
+    printHelp();
+    return;
+  }
 
-    const devServer = await createFluffyDevServer({ port });
-    await devServer.listen();
+  if (command === "--version" || command === "-v") {
+    log.message(version);
+    return;
+  }
 
-    console.log(`Fluffy dev server running at http://localhost:${devServer.port}`);
-  });
+  if (command !== "dev") {
+    throw new Error(`Unknown command: ${command}`);
+  }
 
-program.parse(process.argv);
+  await runDev(args);
+}
+
+async function runDev(args: string[]) {
+  const port = readPort(args);
+  const s = spinner();
+
+  intro("Fluffy");
+  s.start("Starting dev server");
+
+  const devServer = await createFluffyDevServer({ port });
+  await devServer.listen();
+
+  s.stop("Dev server started");
+  outro(`Ready at http://localhost:${devServer.port}`);
+}
+
+function readPort(args: string[]) {
+  const portFlagIndex = args.findIndex((arg) => arg === "--port" || arg === "-p");
+  const inlinePortArg = args.find((arg) => arg.startsWith("--port="));
+
+  if (portFlagIndex >= 0 && !args[portFlagIndex + 1]) {
+    throw new Error("Missing value for --port.");
+  }
+
+  const portValue =
+    inlinePortArg?.slice("--port=".length) ??
+    (portFlagIndex >= 0 ? args[portFlagIndex + 1] : undefined) ??
+    "3000";
+
+  const port = Number.parseInt(portValue, 10);
+
+  if (Number.isNaN(port)) {
+    throw new Error(`Invalid port: ${portValue}`);
+  }
+
+  return port;
+}
+
+function printHelp() {
+  intro("Fluffy");
+  log.message(`Usage:
+  fluffy dev [--port <port>]
+  fluffy --help
+  fluffy --version`);
+  outro("Build tiny, learn deeply.");
+}
