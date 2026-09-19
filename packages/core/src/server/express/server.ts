@@ -3,9 +3,9 @@ import { createServer } from "http";
 import path from "path";
 import react from "@vitejs/plugin-react";
 import { createServer as createViteServer, ViteDevServer } from "vite";
-import { generateRoutes } from "../../router/generateRoutes.js";
-import { FluffyConfig, FluffyRoute } from "../../types/core-types.js";
-import { renderFluffyApp } from "../renderer.js";
+import { generateRoutes } from "../../router/generateRoutes";
+import { FluffyConfig, FluffyRoute } from "../../types/core-types";
+import { renderFluffyApp } from "../renderer";
 
 export async function createFluffyDevServer(config: FluffyConfig = {}) {
   const appRoot = process.cwd();

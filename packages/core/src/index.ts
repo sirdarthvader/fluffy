@@ -1,8 +1,8 @@
-export { createFluffyDevServer, createExpressServer } from "./server/express/server.js";
-export { generateRoutes } from "./router/generateRoutes.js";
+export { createFluffyDevServer, createExpressServer } from "./server/express/server";
+export { generateRoutes } from "./router/generateRoutes";
 export type {
   FluffyConfig,
   FluffyRoute,
   GetServerProps,
   ServerPropsContext,
-} from "./types/core-types.js";
+} from "./types/core-types";

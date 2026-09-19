@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { FluffyRoute } from "../types/core-types.js";
+import { FluffyRoute } from "../types/core-types";
 
 export function generateRoutes(
   pagesDir: string,

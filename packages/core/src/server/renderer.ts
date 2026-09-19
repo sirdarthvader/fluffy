@@ -1,6 +1,6 @@
 import React, { ComponentType } from "react";
 import { renderToString } from "react-dom/server";
-import { FluffyRoute } from "../types/core-types.js";
+import { FluffyRoute } from "../types/core-types";
 
 export interface RenderResult {
   html: string;

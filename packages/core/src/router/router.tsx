@@ -1,6 +1,6 @@
 import { ComponentType, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
-import { FluffyRoute } from "../types/core-types.js";
+import { FluffyRoute } from "../types/core-types";
 
 interface FluffyRouterProps {
   routes: FluffyRoute[];

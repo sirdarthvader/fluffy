@@ -15,7 +15,7 @@ import path from "path";
 import handlebars from "handlebars";
 import figlet from "figlet";
 import { fileURLToPath } from "url";
-import { ProjectOptionsSchema } from "./schemas.js";
+import { ProjectOptionsSchema } from "./schemas";
 
 // Add directory name helper
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
