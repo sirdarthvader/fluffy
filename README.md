@@ -48,6 +48,19 @@ pnpm build
 pnpm typecheck
 ```
 
+Check formatting and linting:
+
+```sh
+pnpm format:check
+pnpm lint
+```
+
+Apply automatic fixes:
+
+```sh
+pnpm fix
+```
+
 Run the example app fixture:
 
 ```sh

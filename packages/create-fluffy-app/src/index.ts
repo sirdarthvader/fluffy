@@ -1,5 +1,4 @@
 import {
-  intro,
   outro,
   text,
   spinner,
@@ -9,7 +8,7 @@ import {
   note,
 } from "@clack/prompts";
 import pc from "picocolors";
-import { mind, rainbow } from "gradient-string";
+import { mind } from "gradient-string";
 import fs from "fs-extra";
 import path from "path";
 import handlebars from "handlebars";
@@ -22,15 +21,13 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 async function main() {
   console.log("\n");
-  console.log(
-    mind(figlet.textSync("Create Fluffy App", { font: "Big Money-ne" }))
-  );
+  console.log(mind(figlet.textSync("Create Fluffy App", { font: "Big Money-ne" })));
   console.log(pc.cyan(" 🐶  Welcome to Create Fluffy App!  🐶\n"));
   console.log(pc.cyan(" The comfiest way to build your next web app!"));
   console.log(
     pc.gray(
-      "Create Fluffy App is a CLI tool that helps you scaffold a new project with your favorite tools and configurations."
-    )
+      "Create Fluffy App is a CLI tool that helps you scaffold a new project with your favorite tools and configurations.",
+    ),
   );
 
   // Collect project name
@@ -80,7 +77,7 @@ async function main() {
   note(
     `Creating project in ${pc.bold(config.data?.projectName)} with:
     ${config.data?.features.map((f) => pc.green(`✓ ${f}`)).join("\n    ")}`,
-    pc.cyan("Project Summary")
+    pc.cyan("Project Summary"),
   );
 
   const s = spinner();
@@ -104,9 +101,7 @@ async function main() {
     await processTemplates(outputDir, templateData);
 
     s.stop("Project created");
-    outro(
-      pc.green(`\nSuccess! Created ${config.data?.projectName} at ${outputDir}`)
-    );
+    outro(pc.green(`\nSuccess! Created ${config.data?.projectName} at ${outputDir}`));
     console.log(pc.cyan("\nNext steps:"));
     console.log(`  cd ${config.data?.projectName}`);
     console.log("  pnpm install");
@@ -137,7 +132,7 @@ async function processTemplates(dir: string, data: any) {
         await fs.writeFile(filePath.replace(/\.hbs$/, ""), result);
         await fs.remove(filePath);
       }
-    })
+    }),
   );
 }
 

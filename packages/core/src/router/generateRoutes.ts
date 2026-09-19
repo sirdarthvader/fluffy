@@ -13,7 +13,7 @@ import { FluffyRoute } from "../types/core-types";
  */
 export function generateRoutes(
   pagesDir: string,
-  appRoot = process.cwd()
+  appRoot = process.cwd(),
 ): FluffyRoute[] {
   const routes: FluffyRoute[] = [];
 
@@ -41,17 +41,13 @@ export function generateRoutes(
   }
 
   walk(pagesDir);
-  return routes.sort(
-    (a, b) => b.path.split("/").length - a.path.split("/").length
-  );
+  return routes.sort((a, b) => b.path.split("/").length - a.path.split("/").length);
 }
 
 function convertToRoutePath(filePath: string): string {
   const withoutExtension = toPosixPath(filePath).replace(/\.(t|j)sx?$/, "");
   const withoutIndex =
-    withoutExtension === "index"
-      ? ""
-      : withoutExtension.replace(/\/index$/, "");
+    withoutExtension === "index" ? "" : withoutExtension.replace(/\/index$/, "");
 
   const routePath = withoutIndex
     .replace(/\[\.\.\.(.*?)\]/g, "*")

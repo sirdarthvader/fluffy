@@ -109,6 +109,12 @@ async function findAvailablePort(port: number): Promise<number> {
   return findAvailablePort(port + 1);
 }
 
+/**
+ * TODO: Figure out if the port was busy, was it because the same app was already running?
+ * If so, we should probably just reuse that server instead of starting a new one.
+ * Why would we want to start a new server if the same app is already running?
+ * It would be confusing to have two servers running on different ports for the same app.
+ */
 function isPortAvailable(port: number) {
   return new Promise<boolean>((resolve) => {
     const probe = createServer();
@@ -169,11 +175,7 @@ hydrateRoot(document.getElementById("root"), React.createElement(Page));
 /**
  * Wrap server-rendered page HTML in the minimal document needed for hydration.
  */
-async function renderDocument(
-  url: string,
-  appHtml: string,
-  vite: ViteDevServer,
-) {
+async function renderDocument(url: string, appHtml: string, vite: ViteDevServer) {
   const html = `<!DOCTYPE html>
 <html>
   <head>

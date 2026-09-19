@@ -21,7 +21,7 @@ export interface RenderResult {
  */
 export async function renderFluffyApp(
   pageModule: Record<string, unknown>,
-  route: FluffyRoute
+  route: FluffyRoute,
 ): Promise<RenderResult> {
   const Page = pageModule.default;
 

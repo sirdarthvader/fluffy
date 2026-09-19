@@ -7,7 +7,7 @@ const packages = ["@fluffy/core", "@fluffy/cli"];
 export function buildFramework() {
   for (const packageName of packages) {
     runStep(`Build ${packageName}`, () =>
-      runCommand("pnpm", ["--filter", packageName, "build"])
+      runCommand("pnpm", ["--filter", packageName, "build"]),
     );
   }
 }
@@ -27,7 +27,9 @@ function runCommand(command, args) {
     });
   } catch (error) {
     const output = [error.stdout, error.stderr].filter(Boolean).join("\n");
-    throw new Error(`${command} ${args.join(" ")} failed\n${output}`);
+    throw new Error(`${command} ${args.join(" ")} failed\n${output}`, {
+      cause: error,
+    });
   }
 }
 

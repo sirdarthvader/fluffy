@@ -30,9 +30,7 @@ export interface ServerPropsContext {
 /**
  * Future page-level server data hook.
  */
-export type GetServerProps<T = any> = (
-  context: ServerPropsContext
-) => Promise<T> | T;
+export type GetServerProps<T = any> = (context: ServerPropsContext) => Promise<T> | T;
 
 /**
  * Runtime options accepted by the Fluffy dev server.

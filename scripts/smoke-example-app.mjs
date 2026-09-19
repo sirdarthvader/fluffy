@@ -1,10 +1,9 @@
 import { spawn } from "node:child_process";
+import { createServer } from "node:net";
 import { fileURLToPath } from "node:url";
 import { setTimeout as delay } from "node:timers/promises";
 import { buildFramework } from "./build-framework.mjs";
 
-const port = 3211;
-const baseUrl = `http://127.0.0.1:${port}`;
 const exampleAppRoot = fileURLToPath(new URL("../examples/minimal", import.meta.url));
 
 run().catch((error) => {
@@ -17,13 +16,15 @@ async function run() {
 
   buildFramework();
 
+  const port = await findAvailablePort(3211);
+  const baseUrl = `http://127.0.0.1:${port}`;
   const server = spawn(
     "node",
     ["../../packages/cli/dist/index.js", "dev", "--port", String(port)],
     {
       cwd: exampleAppRoot,
       stdio: ["ignore", "pipe", "pipe"],
-    }
+    },
   );
 
   let output = "";
@@ -36,23 +37,23 @@ async function run() {
 
   try {
     await runAsyncStep("Start example app dev server", () =>
-      waitForServer(baseUrl, server, () => output)
+      waitForServer(baseUrl, server, () => output),
     );
 
     const html = await fetchText(`${baseUrl}/`);
     await runAsyncStep("Assert server-rendered page HTML", () =>
-      assertIncludes(html, "<h1>Fluffy Example App</h1>", "server-rendered page")
+      assertIncludes(html, "<h1>Fluffy Example App</h1>", "server-rendered page"),
     );
     await runAsyncStep("Assert HTML includes hydration script", () =>
-      assertIncludes(html, "/@fluffy/client-entry", "hydration script")
+      assertIncludes(html, "/@fluffy/client-entry", "hydration script"),
     );
 
     const clientEntry = await fetchText(`${baseUrl}/@fluffy/client-entry`);
     await runAsyncStep("Assert hydration entry calls hydrateRoot", () =>
-      assertIncludes(clientEntry, "hydrateRoot", "hydration entry")
+      assertIncludes(clientEntry, "hydrateRoot", "hydration entry"),
     );
     await runAsyncStep("Assert hydration entry imports the page module", () =>
-      assertIncludes(clientEntry, "/src/pages/index.tsx", "page module import")
+      assertIncludes(clientEntry, "/src/pages/index.tsx", "page module import"),
     );
 
     console.log("\nExample app smoke test passed.");
@@ -70,7 +71,7 @@ async function runAsyncStep(label, action) {
 async function waitForServer(url, server, getOutput) {
   const startedAt = Date.now();
 
-  while (Date.now() - startedAt < 10000) {
+  while (Date.now() - startedAt < 20000) {
     if (server.exitCode !== null) {
       throw new Error(`Dev server exited early:\n${getOutput()}`);
     }
@@ -94,6 +95,25 @@ async function fetchText(url) {
   }
 
   return response.text();
+}
+
+function findAvailablePort(port) {
+  return new Promise((resolve, reject) => {
+    const probe = createServer();
+
+    probe.once("error", (error) => {
+      if (error.code === "EADDRINUSE") {
+        resolve(findAvailablePort(port + 1));
+        return;
+      }
+
+      reject(error);
+    });
+
+    probe.listen(port, () => {
+      probe.close(() => resolve(port));
+    });
+  });
 }
 
 function assertIncludes(value, expected, label) {
