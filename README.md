@@ -76,8 +76,8 @@ pnpm smoke:example
 ## Releases
 
 Changesets drives package versioning and publishing. Merging a PR with a
-changeset into `main` opens a version PR. Merging that version PR publishes the
-packages to npm.
+changeset into `main` versions the packages, publishes them to npm, and pushes
+the resulting version commit and tags back to `main`.
 
 The release workflow requires an `NPM_TOKEN` repository secret with publish
 access to the Fluffy packages.

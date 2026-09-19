@@ -9,16 +9,17 @@ concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 permissions:
   contents: write
-  pull-requests: write
 
 jobs:
   release:
-    name: Version or publish packages
+    name: Version and publish packages
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
@@ -33,13 +34,53 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Create release PR or publish
-        uses: changesets/action@v1
-        with:
-          version: pnpm version-packages
-          publish: pnpm release
-          commit: Version packages
-          title: Version packages
+      - name: Check for changesets
+        id: changesets
+        run: |
+          if find .changeset -name "*.md" ! -name "README.md" | grep -q .; then
+            echo "has_changesets=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_changesets=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Check formatting
+        if: steps.changesets.outputs.has_changesets == 'true'
+        run: pnpm format:check
+
+      - name: Lint
+        if: steps.changesets.outputs.has_changesets == 'true'
+        run: pnpm lint
+
+      - name: Typecheck
+        if: steps.changesets.outputs.has_changesets == 'true'
+        run: pnpm typecheck
+
+      - name: Smoke test example app
+        if: steps.changesets.outputs.has_changesets == 'true'
+        run: pnpm smoke:example
+
+      - name: Version packages
+        if: steps.changesets.outputs.has_changesets == 'true'
+        run: pnpm version-packages
+
+      - name: Update lockfile
+        if: steps.changesets.outputs.has_changesets == 'true'
+        run: pnpm install --lockfile-only
+
+      - name: Commit version changes
+        if: steps.changesets.outputs.has_changesets == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "Version packages [skip ci]"
+
+      - name: Publish packages
+        if: steps.changesets.outputs.has_changesets == 'true'
+        run: pnpm release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Push version commit and tags
+        if: steps.changesets.outputs.has_changesets == 'true'
+        run: git push origin HEAD:main --follow-tags
