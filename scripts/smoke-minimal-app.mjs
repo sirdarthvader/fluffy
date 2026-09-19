@@ -2,19 +2,25 @@ import { execFileSync, spawn } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { setTimeout as delay } from "node:timers/promises";
 
-const port = 3210;
+const port = 3211;
 const baseUrl = `http://127.0.0.1:${port}`;
 const repoRoot = fileURLToPath(new URL("..", import.meta.url));
 const minimalAppRoot = fileURLToPath(new URL("../examples/minimal", import.meta.url));
 
 run().catch((error) => {
-  console.error(error);
+  console.error(`\nSmoke test failed:\n${error.message}`);
   process.exit(1);
 });
 
 async function run() {
-  runCommand("pnpm", ["--filter", "@fluffy/core", "build"]);
-  runCommand("pnpm", ["--filter", "@fluffy/cli", "build"]);
+  console.log("Minimal app smoke test\n");
+
+  await runStep("Build @fluffy/core", () =>
+    runCommand("pnpm", ["--filter", "@fluffy/core", "build"])
+  );
+  await runStep("Build @fluffy/cli", () =>
+    runCommand("pnpm", ["--filter", "@fluffy/cli", "build"])
+  );
 
   const server = spawn(
     "node",
@@ -34,27 +40,49 @@ async function run() {
   });
 
   try {
-    await waitForServer(baseUrl, server, () => output);
+    await runStep("Start minimal app dev server", () =>
+      waitForServer(baseUrl, server, () => output)
+    );
 
     const html = await fetchText(`${baseUrl}/`);
-    assertIncludes(html, "<h1>Minimal Fluffy App</h1>", "server-rendered page");
-    assertIncludes(html, "/@fluffy/client-entry", "hydration script");
+    await runStep("Assert server-rendered page HTML", () =>
+      assertIncludes(html, "<h1>Minimal Fluffy App</h1>", "server-rendered page")
+    );
+    await runStep("Assert HTML includes hydration script", () =>
+      assertIncludes(html, "/@fluffy/client-entry", "hydration script")
+    );
 
     const clientEntry = await fetchText(`${baseUrl}/@fluffy/client-entry`);
-    assertIncludes(clientEntry, "hydrateRoot", "hydration entry");
-    assertIncludes(clientEntry, "/src/pages/index.tsx", "page module import");
+    await runStep("Assert hydration entry calls hydrateRoot", () =>
+      assertIncludes(clientEntry, "hydrateRoot", "hydration entry")
+    );
+    await runStep("Assert hydration entry imports the page module", () =>
+      assertIncludes(clientEntry, "/src/pages/index.tsx", "page module import")
+    );
 
-    console.log("Minimal app smoke test passed.");
+    console.log("\nMinimal app smoke test passed.");
   } finally {
     server.kill("SIGINT");
   }
 }
 
 function runCommand(command, args) {
-  execFileSync(command, args, {
-    cwd: repoRoot,
-    stdio: "inherit",
-  });
+  try {
+    execFileSync(command, args, {
+      cwd: repoRoot,
+      stdio: "pipe",
+      encoding: "utf8",
+    });
+  } catch (error) {
+    const output = [error.stdout, error.stderr].filter(Boolean).join("\n");
+    throw new Error(`${command} ${args.join(" ")} failed\n${output}`);
+  }
+}
+
+async function runStep(label, action) {
+  process.stdout.write(`- ${label}... `);
+  await action();
+  console.log("ok");
 }
 
 async function waitForServer(url, server, getOutput) {
