@@ -95,6 +95,7 @@ jobs:
         if: steps.changesets.outputs.has_changesets == 'false'
         run: pnpm release
         env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Push release tags
