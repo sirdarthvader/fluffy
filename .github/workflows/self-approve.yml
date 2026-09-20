@@ -21,7 +21,7 @@ jobs:
     if: >
       !github.event.pull_request.draft &&
       github.event.pull_request.head.repo.full_name == github.repository &&
-      (contains(github.event.pull_request.labels.*.name, 'auto-approve') ||
+      (contains(github.event.pull_request.labels.*.name, 'auto-merge') ||
        github.event.action == 'unlabeled')
 
     steps:
@@ -33,14 +33,14 @@ jobs:
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
 
       - name: Approve pull request
-        if: contains(github.event.pull_request.labels.*.name, 'auto-approve')
+        if: contains(github.event.pull_request.labels.*.name, 'auto-merge')
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR_URL: ${{ github.event.pull_request.html_url }}
         run: gh pr review "$PR_URL" --approve
 
       - name: Enable auto-merge
-        if: contains(github.event.pull_request.labels.*.name, 'auto-approve')
+        if: contains(github.event.pull_request.labels.*.name, 'auto-merge')
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
           PR_URL: ${{ github.event.pull_request.html_url }}
@@ -49,7 +49,7 @@ jobs:
       - name: Disable auto-merge
         if: >
           github.event.action == 'unlabeled' &&
-          !contains(github.event.pull_request.labels.*.name, 'auto-approve')
+          !contains(github.event.pull_request.labels.*.name, 'auto-merge')
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
           PR_URL: ${{ github.event.pull_request.html_url }}
