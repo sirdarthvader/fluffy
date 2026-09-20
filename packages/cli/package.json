@@ -5,6 +5,11 @@
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sirdarthvader/fluffy",
+    "directory": "packages/cli"
+  },
   "files": [
     "dist"
   ],
