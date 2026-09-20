@@ -1,5 +1,5 @@
 {
-  "name": "create-fluffee-app",
+  "name": "@fluffejs/create-app",
   "version": "0.0.1",
   "type": "module",
   "main": "dist/index.js",
@@ -12,7 +12,7 @@
     "node": ">=18.0.0"
   },
   "bin": {
-    "create-fluffee-app": "./dist/index.js"
+    "create-fluffejs-app": "./dist/index.js"
   },
   "scripts": {
     "build": "tsup src/index.ts --format esm --dts --clean --minify",

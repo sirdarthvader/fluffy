@@ -1,5 +1,5 @@
 /**
- * Public entry point for @fluffee/core.
+ * Public entry point for @fluffejs/core.
  *
  * The CLI imports from this file instead of reaching into internal folders.
  * Keeping this surface small makes it easier to see what the framework

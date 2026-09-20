@@ -1,4 +1,4 @@
-# @fluffee/cli (Development CLI)
+# @fluffejs/cli (Development CLI)
 
 - Handles dev server, builds, and deployments
 - Commands

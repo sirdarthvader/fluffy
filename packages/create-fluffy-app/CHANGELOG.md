@@ -1,4 +1,4 @@
-# create-fluffee-app
+# @fluffejs/create-app
 
 ## 0.0.1
 
