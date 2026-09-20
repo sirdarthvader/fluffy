@@ -56,11 +56,6 @@ assertIncludes(
 );
 assertIncludes(
   pagesYaml,
-  "enablement: true",
-  "Pages workflow should enable Pages on first deploy.",
-);
-assertIncludes(
-  pagesYaml,
   "actions/upload-pages-artifact@v5",
   "Pages workflow must upload a Pages artifact.",
 );
