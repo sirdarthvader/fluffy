@@ -1,14 +1,14 @@
-# fluffejs Roadmap
+# fluffy-ts Roadmap
 
-This roadmap is the source of truth for what fluffejs is trying to prove, what is intentionally out of scope, and what must be true before each release window.
+This roadmap is the source of truth for what fluffy-ts is trying to prove, what is intentionally out of scope, and what must be true before each release window.
 
 ## Thesis
 
-fluffejs demonstrates how a React framework stitches together file-based routing, server rendering, and browser hydration, using Vite as the build and development substrate.
+fluffy-ts demonstrates how a React framework stitches together file-based routing, server rendering, and browser hydration, using Vite as the build and development substrate.
 
 ## From-Scratch Boundary
 
-fluffejs owns the framework layer:
+fluffy-ts owns the framework layer:
 
 - file-based routing conventions
 - route discovery
@@ -18,7 +18,7 @@ fluffejs owns the framework layer:
 - app scaffolding
 - documentation and release cadence
 
-fluffejs does not own platform plumbing:
+fluffy-ts does not own platform plumbing:
 
 - bundling
 - TypeScript transformation
@@ -71,13 +71,13 @@ Status: Active
 
 ### Goal
 
-A developer can scaffold a fluffejs app, run it locally, render a file-based route on the server, and hydrate it in the browser.
+A developer can scaffold a fluffy-ts app, run it locally, render a file-based route on the server, and hydrate it in the browser.
 
 ### Success Criteria
 
-- `@fluffejs/create-app` creates an app with `src/pages/index.tsx`.
+- `@fluffy-ts/create-app` creates an app with `src/pages/index.tsx`.
 - The generated app installs and runs with documented commands.
-- `fluffejs dev` starts the development server.
+- `fluffy dev` starts the development server.
 - Files in `src/pages` are discovered as routes.
 - The root route renders HTML on the server.
 - The client hydrates the server-rendered route without replacing the app contract.
@@ -85,7 +85,7 @@ A developer can scaffold a fluffejs app, run it locally, render a file-based rou
 
 ### In Scope
 
-- Keep the existing package split: `@fluffejs/core`, `@fluffejs/cli`, and `@fluffejs/create-app`.
+- Keep the existing package split: `@fluffy-ts/core`, `@fluffy-ts/cli`, and `@fluffy-ts/create-app`.
 - Use Vite middleware for development.
 - Use file-based routing through a `src/pages` convention.
 - Support one server-rendered React route end to end.
@@ -111,8 +111,8 @@ A developer can scaffold a fluffejs app, run it locally, render a file-based rou
 - `pnpm build`
 - `pnpm typecheck`
 - `pnpm smoke:example`
-- Create a fresh app with `@fluffejs/create-app`.
-- Run the generated app with `fluffejs dev`.
+- Create a fresh app with `@fluffy-ts/create-app`.
+- Run the generated app with `fluffy dev`.
 - Open the app in a browser and confirm the route is server-rendered and hydrated.
 
 ### Release Notes
@@ -166,12 +166,12 @@ Status: Planned
 
 ### Goal
 
-A fluffejs app can be built and started in production mode.
+A fluffy-ts app can be built and started in production mode.
 
 ### Success Criteria
 
-- `fluffejs build` creates server and client output.
-- `fluffejs start` serves the built app.
+- `fluffy-ts build` creates server and client output.
+- `fluffy-ts start` serves the built app.
 - Client assets are loaded from the production build.
 - The build output is documented.
 
@@ -203,7 +203,7 @@ A fluffejs app can be built and started in production mode.
 
 Status: Planned
 
-fluffejs can be considered for its first stable release window when these are true:
+fluffy-ts can be considered for its first stable release window when these are true:
 
 - A new user can create an app from scratch using only the README.
 - The core route, SSR, hydration, and production build paths are covered by tests or documented verification steps.

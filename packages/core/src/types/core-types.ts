@@ -6,9 +6,9 @@
  */
 
 /**
- * A page file after fluffejs has discovered it in the app's `src/pages` folder.
+ * A page file after fluffy-ts has discovered it in the app's `src/pages` folder.
  */
-export interface FluffejsRoute {
+export interface FluffyTsRoute {
   /** URL path exposed by the framework, such as `/` or `/blog/:slug`. */
   path: string;
   /** Browser import path used by the generated hydration entry. */
@@ -33,16 +33,16 @@ export interface ServerPropsContext {
 export type GetServerProps<T = any> = (context: ServerPropsContext) => Promise<T> | T;
 
 /**
- * Runtime options accepted by the fluffejs dev server.
+ * Runtime options accepted by the fluffy-ts dev server.
  */
-export interface FluffejsConfig {
+export interface FluffyTsConfig {
   pagesDir?: string;
   port?: number;
   staticDir?: string;
   ssr?: boolean;
 }
 
-export interface FluffejsRouterProps {
-  routes: FluffejsRoute[];
+export interface FluffyTsRouterProps {
+  routes: FluffyTsRoute[];
   ssrData?: Record<string, unknown>;
 }

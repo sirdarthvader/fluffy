@@ -80,8 +80,8 @@ jobs:
       - name: Commit version changes
         if: steps.changesets.outputs.has_changesets == 'true'
         run: |
-          git config user.name "fluffejs-release-bot[bot]"
-          git config user.email "fluffejs-release-bot[bot]@users.noreply.github.com"
+          git config user.name "fluffy-ts-release-bot[bot]"
+          git config user.email "fluffy-ts-release-bot[bot]@users.noreply.github.com"
           git add .
           git commit -m "Version packages"
 
@@ -105,3 +105,18 @@ jobs:
       - name: Push release tags
         if: steps.changesets.outputs.has_changesets == 'false'
         run: git push origin --tags
+
+      - name: Create GitHub releases
+        if: steps.changesets.outputs.has_changesets == 'false'
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          git tag --points-at HEAD | while read -r tag; do
+            if gh release view "$tag" >/dev/null 2>&1; then
+              echo "GitHub release already exists for $tag"
+            else
+              gh release create "$tag" \
+                --title "$tag" \
+                --notes "Published by the automated Changesets release workflow. See the package changelog for details."
+            fi
+          done

@@ -1,5 +1,5 @@
 /**
- * Server-side React renderer for a matched fluffejs route.
+ * Server-side React renderer for a matched fluffy-ts route.
  *
  * The dev server asks Vite to load a page module, then this file turns that
  * module's default export into an HTML string. It does not know about Express,
@@ -7,7 +7,7 @@
  */
 import React, { ComponentType } from "react";
 import { renderToString } from "react-dom/server";
-import { FluffejsRoute } from "../types/core-types";
+import { FluffyTsRoute } from "../types/core-types";
 
 /**
  * HTML returned by the server renderer before it is wrapped in a document.
@@ -19,9 +19,9 @@ export interface RenderResult {
 /**
  * Render one page module for one matched route.
  */
-export async function renderFluffejsApp(
+export async function renderFluffyTsApp(
   pageModule: Record<string, unknown>,
-  route: FluffejsRoute,
+  route: FluffyTsRoute,
 ): Promise<RenderResult> {
   const Page = pageModule.default;
 

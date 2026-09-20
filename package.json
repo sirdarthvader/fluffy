@@ -1,12 +1,12 @@
 {
-  "name": "fluffejs",
+  "name": "fluffy-ts",
   "private": true,
-  "description": "",
+  "description": "A learning-focused React framework for understanding routing, SSR, and hydration.",
   "main": "index.js",
   "scripts": {
     "dev": "turbo run dev --parallel",
     "predev:example": "node scripts/build-framework.mjs",
-    "dev:example": "pnpm --silent --filter fluffejs-example-app dev",
+    "dev:example": "pnpm --silent --filter fluffy-ts-example-app dev",
     "smoke:example": "node scripts/smoke-example-app.mjs",
     "build": "turbo run build",
     "typecheck": "turbo run typecheck",

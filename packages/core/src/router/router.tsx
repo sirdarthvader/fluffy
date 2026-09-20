@@ -7,13 +7,13 @@
  */
 import { ComponentType, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
-import { FluffejsRoute } from "../types/core-types";
+import { FluffyTsRoute } from "../types/core-types";
 
-interface FluffejsRouterProps {
-  routes: FluffejsRoute[];
+interface FluffyTsRouterProps {
+  routes: FluffyTsRoute[];
 }
 
-export function FluffejsRouter({ routes }: FluffejsRouterProps) {
+export function FluffyTsRouter({ routes }: FluffyTsRouterProps) {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <Routes>
