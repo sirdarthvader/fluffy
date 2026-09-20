@@ -7,6 +7,8 @@ on:
       - reopened
       - ready_for_review
       - synchronize
+      - labeled
+      - unlabeled
 
 permissions:
   pull-requests: write
@@ -18,7 +20,9 @@ jobs:
     runs-on: ubuntu-latest
     if: >
       !github.event.pull_request.draft &&
-      github.event.pull_request.head.repo.full_name == github.repository
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      (contains(github.event.pull_request.labels.*.name, 'auto-merge') ||
+       github.event.action == 'unlabeled')
 
     steps:
       - name: Generate GitHub App token
@@ -29,13 +33,24 @@ jobs:
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
 
       - name: Approve pull request
+        if: contains(github.event.pull_request.labels.*.name, 'auto-merge')
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR_URL: ${{ github.event.pull_request.html_url }}
         run: gh pr review "$PR_URL" --approve
 
       - name: Enable auto-merge
+        if: contains(github.event.pull_request.labels.*.name, 'auto-merge')
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
           PR_URL: ${{ github.event.pull_request.html_url }}
         run: gh pr merge "$PR_URL" --auto --squash
+
+      - name: Disable auto-merge
+        if: >
+          github.event.action == 'unlabeled' &&
+          !contains(github.event.pull_request.labels.*.name, 'auto-merge')
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+        run: gh pr merge "$PR_URL" --disable-auto
