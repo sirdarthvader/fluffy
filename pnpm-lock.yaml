@@ -35,10 +35,10 @@ importers:
 
   examples/minimal:
     dependencies:
-      '@fluffee/cli':
+      '@fluffejs/cli':
         specifier: workspace:*
         version: link:../../packages/cli
-      '@fluffee/core':
+      '@fluffejs/core':
         specifier: workspace:*
         version: link:../../packages/core
       react:
@@ -63,7 +63,7 @@ importers:
       '@clack/prompts':
         specifier: ^0.10.0
         version: 0.10.0
-      '@fluffee/core':
+      '@fluffejs/core':
         specifier: workspace:*
         version: link:../core
     devDependencies:

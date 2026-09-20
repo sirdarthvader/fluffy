@@ -1,4 +1,4 @@
-# @fluffee/core
+# @fluffejs/core
 
 ## 0.0.1
 

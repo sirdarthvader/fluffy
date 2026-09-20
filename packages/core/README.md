@@ -1,4 +1,4 @@
-# @fluffee/core
+# @fluffejs/core
 
 Core framework runtime for Fluffy.
 

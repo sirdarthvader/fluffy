@@ -2,7 +2,7 @@ import { execFileSync } from "node:child_process";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
 const repoRoot = fileURLToPath(new URL("..", import.meta.url));
-const packages = ["@fluffee/core", "@fluffee/cli"];
+const packages = ["@fluffejs/core", "@fluffejs/cli"];
 
 export function buildFramework() {
   for (const packageName of packages) {

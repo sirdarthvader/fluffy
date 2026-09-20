@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      "@fluffee/core": path.resolve(__dirname, "./src"),
+      "@fluffejs/core": path.resolve(__dirname, "./src"),
     },
   },
   build: {
