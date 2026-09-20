@@ -4,6 +4,11 @@
   "type": "module",
   "main": "dist/index.js",
   "module": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sirdarthvader/fluffy",
+    "directory": "packages/create-fluffejs-app"
+  },
   "files": [
     "dist",
     "src/template"
