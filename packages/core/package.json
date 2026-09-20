@@ -1,6 +1,6 @@
 {
   "name": "@fluffy-ts/core",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "type": "module",
   "description": "Core runtime for fluffy-ts, including routing, SSR, hydration, and the development server.",
   "main": "dist/index.cjs",

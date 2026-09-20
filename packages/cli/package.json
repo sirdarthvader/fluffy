@@ -1,6 +1,6 @@
 {
   "name": "@fluffy-ts/cli",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "type": "module",
   "description": "Command-line interface for developing fluffy-ts applications.",
   "main": "dist/index.js",

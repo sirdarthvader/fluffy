@@ -1,5 +1,11 @@
 # @fluffy-ts/core
 
+## 0.0.3
+
+### Patch Changes
+
+- b51c06e: Rename the published packages and developer-facing commands to fluffy-ts.
+
 ## 0.0.2
 
 ### Patch Changes
