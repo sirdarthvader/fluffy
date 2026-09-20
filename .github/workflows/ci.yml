@@ -40,5 +40,8 @@ jobs:
       - name: Build
         run: pnpm build
 
+      - name: Check documentation site
+        run: pnpm site:check
+
       - name: Smoke test example app
         run: pnpm smoke:example
