@@ -14,7 +14,7 @@ The first milestone is documented in [ROADMAP.md](./ROADMAP.md).
 
 Phase 1 is successful when a developer can:
 
-1. Scaffold a new app with `create-fluffy-app`.
+1. Scaffold a new app with `create-fluffee-app`.
 2. Start it with `fluffy dev`.
 3. Add a page in `src/pages`.
 4. See that page render on the server.
@@ -22,9 +22,9 @@ Phase 1 is successful when a developer can:
 
 ## Packages
 
-- `@fluffy/core`: framework runtime, routing, SSR, and hydration.
-- `@fluffy/cli`: developer commands such as `fluffy dev`.
-- `create-fluffy-app`: project scaffolding.
+- `@fluffee/core`: framework runtime, routing, SSR, and hydration.
+- `@fluffee/cli`: developer commands such as `fluffy dev`.
+- `create-fluffee-app`: project scaffolding.
 
 ## Non-Goals For Now
 

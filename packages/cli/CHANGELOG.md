@@ -1,4 +1,4 @@
-# @fluffy/cli
+# @fluffee/cli
 
 ## 0.0.1
 
@@ -8,4 +8,4 @@
   browser hydration, the `fluffy dev` CLI, an example app, and repository formatting
   and linting checks.
 - Updated dependencies [e330768]
-  - @fluffy/core@0.0.1
+  - @fluffee/core@0.0.1

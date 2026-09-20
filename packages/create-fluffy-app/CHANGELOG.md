@@ -1,4 +1,4 @@
-# create-fluffy-app
+# create-fluffee-app
 
 ## 0.0.1
 

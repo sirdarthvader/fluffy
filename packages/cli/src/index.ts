@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { intro, outro, cancel, log, spinner } from "@clack/prompts";
-import { createFluffyDevServer } from "@fluffy/core";
+import { createFluffyDevServer } from "@fluffee/core";
 
 const version = "0.0.1-alpha.0";
 

@@ -75,7 +75,7 @@ A developer can scaffold a Fluffy app, run it locally, render a file-based route
 
 ### Success Criteria
 
-- `create-fluffy-app` creates an app with `src/pages/index.tsx`.
+- `create-fluffee-app` creates an app with `src/pages/index.tsx`.
 - The generated app installs and runs with documented commands.
 - `fluffy dev` starts the development server.
 - Files in `src/pages` are discovered as routes.
@@ -85,7 +85,7 @@ A developer can scaffold a Fluffy app, run it locally, render a file-based route
 
 ### In Scope
 
-- Keep the existing package split: `@fluffy/core`, `@fluffy/cli`, and `create-fluffy-app`.
+- Keep the existing package split: `@fluffee/core`, `@fluffee/cli`, and `create-fluffee-app`.
 - Use Vite middleware for development.
 - Use file-based routing through a `src/pages` convention.
 - Support one server-rendered React route end to end.
@@ -111,7 +111,7 @@ A developer can scaffold a Fluffy app, run it locally, render a file-based route
 - `pnpm build`
 - `pnpm typecheck`
 - `pnpm smoke:example`
-- Create a fresh app with `create-fluffy-app`.
+- Create a fresh app with `create-fluffee-app`.
 - Run the generated app with `fluffy dev`.
 - Open the app in a browser and confirm the route is server-rendered and hydrated.
 

@@ -1,4 +1,4 @@
-# @fluffy/core
+# @fluffee/core
 
 ## 0.0.1
 

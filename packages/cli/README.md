@@ -1,4 +1,4 @@
-# @fluffy/cli (Development CLI)
+# @fluffee/cli (Development CLI)
 
 - Handles dev server, builds, and deployments
 - Commands
