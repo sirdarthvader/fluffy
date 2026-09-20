@@ -1,14 +1,14 @@
-# Fluffy Roadmap
+# fluffejs Roadmap
 
-This roadmap is the source of truth for what Fluffy is trying to prove, what is intentionally out of scope, and what must be true before each release window.
+This roadmap is the source of truth for what fluffejs is trying to prove, what is intentionally out of scope, and what must be true before each release window.
 
 ## Thesis
 
-Fluffy demonstrates how a React framework stitches together file-based routing, server rendering, and browser hydration, using Vite as the build and development substrate.
+fluffejs demonstrates how a React framework stitches together file-based routing, server rendering, and browser hydration, using Vite as the build and development substrate.
 
 ## From-Scratch Boundary
 
-Fluffy owns the framework layer:
+fluffejs owns the framework layer:
 
 - file-based routing conventions
 - route discovery
@@ -18,7 +18,7 @@ Fluffy owns the framework layer:
 - app scaffolding
 - documentation and release cadence
 
-Fluffy does not own platform plumbing:
+fluffejs does not own platform plumbing:
 
 - bundling
 - TypeScript transformation
@@ -71,13 +71,13 @@ Status: Active
 
 ### Goal
 
-A developer can scaffold a Fluffy app, run it locally, render a file-based route on the server, and hydrate it in the browser.
+A developer can scaffold a fluffejs app, run it locally, render a file-based route on the server, and hydrate it in the browser.
 
 ### Success Criteria
 
 - `@fluffejs/create-app` creates an app with `src/pages/index.tsx`.
 - The generated app installs and runs with documented commands.
-- `fluffy dev` starts the development server.
+- `fluffejs dev` starts the development server.
 - Files in `src/pages` are discovered as routes.
 - The root route renders HTML on the server.
 - The client hydrates the server-rendered route without replacing the app contract.
@@ -112,7 +112,7 @@ A developer can scaffold a Fluffy app, run it locally, render a file-based route
 - `pnpm typecheck`
 - `pnpm smoke:example`
 - Create a fresh app with `@fluffejs/create-app`.
-- Run the generated app with `fluffy dev`.
+- Run the generated app with `fluffejs dev`.
 - Open the app in a browser and confirm the route is server-rendered and hydrated.
 
 ### Release Notes
@@ -166,12 +166,12 @@ Status: Planned
 
 ### Goal
 
-A Fluffy app can be built and started in production mode.
+A fluffejs app can be built and started in production mode.
 
 ### Success Criteria
 
-- `fluffy build` creates server and client output.
-- `fluffy start` serves the built app.
+- `fluffejs build` creates server and client output.
+- `fluffejs start` serves the built app.
 - Client assets are loaded from the production build.
 - The build output is documented.
 
@@ -203,7 +203,7 @@ A Fluffy app can be built and started in production mode.
 
 Status: Planned
 
-Fluffy can be considered for its first stable release window when these are true:
+fluffejs can be considered for its first stable release window when these are true:
 
 - A new user can create an app from scratch using only the README.
 - The core route, SSR, hydration, and production build paths are covered by tests or documented verification steps.

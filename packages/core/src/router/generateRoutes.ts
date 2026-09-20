@@ -1,12 +1,12 @@
 /**
- * Converts files in an app's `src/pages` directory into Fluffy route records.
+ * Converts files in an app's `src/pages` directory into fluffejs route records.
  *
  * This is the first step in the framework pipeline:
  * page files -> route manifest -> SSR match -> browser hydration match.
  */
 import fs from "fs";
 import path from "path";
-import { FluffyRoute } from "../types/core-types";
+import { FluffejsRoute } from "../types/core-types";
 
 /**
  * Walk the pages directory and return route records for every JS/TS page file.
@@ -14,8 +14,8 @@ import { FluffyRoute } from "../types/core-types";
 export function generateRoutes(
   pagesDir: string,
   appRoot = process.cwd(),
-): FluffyRoute[] {
-  const routes: FluffyRoute[] = [];
+): FluffejsRoute[] {
+  const routes: FluffejsRoute[] = [];
 
   function walk(dir: string, base = "") {
     const entries = fs.readdirSync(dir, { withFileTypes: true });

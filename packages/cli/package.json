@@ -18,7 +18,7 @@
     }
   },
   "bin": {
-    "fluffy": "./dist/index.js"
+    "fluffejs": "./dist/index.js"
   },
   "scripts": {
     "build": "tsup",

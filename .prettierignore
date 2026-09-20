@@ -3,4 +3,4 @@ dist
 .turbo
 coverage
 pnpm-lock.yaml
-packages/create-fluffy-app/src/template
+packages/create-fluffejs-app/src/template

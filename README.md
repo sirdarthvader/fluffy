@@ -1,12 +1,12 @@
-# Fluffy
+# fluffejs
 
-Fluffy is a learning-focused React framework that demonstrates how file-based routing, server rendering, and browser hydration fit together.
+fluffejs is a learning-focused React framework that demonstrates how file-based routing, server rendering, and browser hydration fit together.
 
-It is intentionally small. Fluffy uses Vite for bundling and dev-server plumbing so the project can focus on the framework layer: routing conventions, the SSR pipeline, hydration, the CLI, and project scaffolding.
+It is intentionally small. fluffejs uses Vite for bundling and dev-server plumbing so the project can focus on the framework layer: routing conventions, the SSR pipeline, hydration, the CLI, and project scaffolding.
 
 ## Project Status
 
-Fluffy is being revived from an early prototype. The current goal is not to compete with production frameworks; it is to build one complete, understandable vertical slice.
+fluffejs is being revived from an early prototype. The current goal is not to compete with production frameworks; it is to build one complete, understandable vertical slice.
 
 The first milestone is documented in [ROADMAP.md](./ROADMAP.md).
 
@@ -15,7 +15,7 @@ The first milestone is documented in [ROADMAP.md](./ROADMAP.md).
 Phase 1 is successful when a developer can:
 
 1. Scaffold a new app with `@fluffejs/create-app`.
-2. Start it with `fluffy dev`.
+2. Start it with `fluffejs dev`.
 3. Add a page in `src/pages`.
 4. See that page render on the server.
 5. See the same page hydrate in the browser.
@@ -23,12 +23,12 @@ Phase 1 is successful when a developer can:
 ## Packages
 
 - `@fluffejs/core`: framework runtime, routing, SSR, and hydration.
-- `@fluffejs/cli`: developer commands such as `fluffy dev`.
+- `@fluffejs/cli`: developer commands such as `fluffejs dev`.
 - `@fluffejs/create-app`: project scaffolding.
 
 ## Non-Goals For Now
 
-Fluffy is not trying to implement every modern framework feature. These are intentionally out of scope for the first phase:
+fluffejs is not trying to implement every modern framework feature. These are intentionally out of scope for the first phase:
 
 - React Server Components
 - static site generation
@@ -83,10 +83,10 @@ release tags.
 
 The release workflow requires:
 
-- an `NPM_TOKEN` repository secret with publish access to the Fluffy packages
+- an `NPM_TOKEN` repository secret with publish access to the fluffejs packages
 - an `APP_PRIVATE_KEY` repository secret for the release GitHub App
 - an `APP_ID` repository variable for the release GitHub App
 
 ## Why This Exists
 
-Frameworks can feel mysterious because many concepts arrive bundled together. Fluffy is a place to pull those concepts apart, implement them deliberately, and write about each phase as it becomes real.
+Frameworks can feel mysterious because many concepts arrive bundled together. fluffejs is a place to pull those concepts apart, implement them deliberately, and write about each phase as it becomes real.
