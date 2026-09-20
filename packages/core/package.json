@@ -3,6 +3,7 @@
   "version": "0.0.3",
   "type": "module",
   "description": "Core runtime for fluffy-ts, including routing, SSR, hydration, and the development server.",
+  "homepage": "https://sirdarthvader.github.io/fluffy/",
   "main": "dist/index.cjs",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",

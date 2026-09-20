@@ -3,6 +3,7 @@
   "version": "0.0.3",
   "type": "module",
   "description": "Project scaffolder for new fluffy-ts applications.",
+  "homepage": "https://sirdarthvader.github.io/fluffy/",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "repository": {

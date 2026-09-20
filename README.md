@@ -4,6 +4,8 @@ fluffy-ts is a learning-focused React framework that demonstrates how file-based
 
 It is intentionally small. fluffy-ts uses Vite for bundling and dev-server plumbing so the project can focus on the framework layer: routing conventions, the SSR pipeline, hydration, the CLI, and project scaffolding.
 
+Website: [sirdarthvader.github.io/fluffy](https://sirdarthvader.github.io/fluffy/)
+
 ## Project Status
 
 fluffy-ts is being revived from an early prototype. The current goal is not to compete with production frameworks; it is to build one complete, understandable vertical slice.
@@ -72,6 +74,22 @@ Smoke-test the framework against that app:
 ```sh
 pnpm smoke:example
 ```
+
+Preview the documentation site:
+
+```sh
+pnpm site:preview
+```
+
+## Documentation Site
+
+The static documentation site lives in `site/` and is deployed by the
+`Pages` workflow. GitHub Pages should use **GitHub Actions** as the source.
+After the first deployment, add `https://sirdarthvader.github.io/fluffy/` to
+the GitHub repository website field.
+
+The site is intentionally dependency-light so the learning material can evolve
+with the framework without adding another application layer too early.
 
 ## Releases
 
