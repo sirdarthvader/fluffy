@@ -51,7 +51,7 @@ assertIncludes(
 );
 assertIncludes(
   pagesYaml,
-  "actions/configure-pages@v5",
+  "actions/configure-pages@v6",
   "Pages workflow must configure GitHub Pages before deployment.",
 );
 assertIncludes(
@@ -61,7 +61,7 @@ assertIncludes(
 );
 assertIncludes(
   pagesYaml,
-  "actions/upload-pages-artifact@v3",
+  "actions/upload-pages-artifact@v5",
   "Pages workflow must upload a Pages artifact.",
 );
 assertIncludes(
@@ -71,7 +71,7 @@ assertIncludes(
 );
 assertIncludes(
   pagesYaml,
-  "actions/deploy-pages@v4",
+  "actions/deploy-pages@v5",
   "Pages workflow must deploy the uploaded Pages artifact.",
 );
 
