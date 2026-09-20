@@ -1,5 +1,5 @@
 {
-  "name": "@fluffy/cli",
+  "name": "@fluffee/cli",
   "version": "0.0.1",
   "type": "module",
   "description": "",
@@ -35,7 +35,7 @@
     "typescript": "^5.7.3"
   },
   "dependencies": {
-    "@fluffy/core": "workspace:*",
+    "@fluffee/core": "workspace:*",
     "@clack/prompts": "^0.10.0"
   }
 }

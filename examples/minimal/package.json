@@ -7,8 +7,8 @@
     "dev": "fluffy dev --port 3210"
   },
   "dependencies": {
-    "@fluffy/cli": "workspace:*",
-    "@fluffy/core": "workspace:*",
+    "@fluffee/cli": "workspace:*",
+    "@fluffee/core": "workspace:*",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
