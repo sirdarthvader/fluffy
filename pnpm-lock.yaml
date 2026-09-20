@@ -35,10 +35,10 @@ importers:
 
   examples/minimal:
     dependencies:
-      '@fluffejs/cli':
+      '@fluffy-ts/cli':
         specifier: workspace:*
         version: link:../../packages/cli
-      '@fluffejs/core':
+      '@fluffy-ts/core':
         specifier: workspace:*
         version: link:../../packages/core
       react:
@@ -63,7 +63,7 @@ importers:
       '@clack/prompts':
         specifier: ^0.10.0
         version: 0.10.0
-      '@fluffejs/core':
+      '@fluffy-ts/core':
         specifier: workspace:*
         version: link:../core
     devDependencies:
@@ -114,7 +114,7 @@ importers:
         specifier: ^5.7.3
         version: 5.7.3
 
-  packages/create-fluffejs-app:
+  packages/create-fluffy-ts-app:
     dependencies:
       '@clack/prompts':
         specifier: ^0.10.0

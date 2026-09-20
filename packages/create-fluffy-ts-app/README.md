@@ -1,4 +1,4 @@
-# @fluffejs/create-app (Scaffolding)
+# @fluffy-ts/create-app (Scaffolding)
 
 - Bootstraps new projects
 - Possible structure for now

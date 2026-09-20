@@ -1,4 +1,4 @@
-# @fluffejs/create-app
+# @fluffy-ts/create-app
 
 ## 0.0.2
 
@@ -10,6 +10,6 @@
 
 ### Patch Changes
 
-- e330768: Add the first usable fluffejs dev workflow with file-based routing, server rendering,
-  browser hydration, the `fluffejs dev` CLI, an example app, and repository formatting
+- e330768: Add the first usable fluffy-ts dev workflow with file-based routing, server rendering,
+  browser hydration, the `fluffy-ts dev` CLI, an example app, and repository formatting
   and linting checks.

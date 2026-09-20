@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { intro, outro, cancel, log, spinner } from "@clack/prompts";
-import { createFluffejsDevServer } from "@fluffejs/core";
+import { createFluffyTsDevServer } from "@fluffy-ts/core";
 
 const version = "0.0.1-alpha.0";
 
@@ -34,15 +34,15 @@ async function runDev(args: string[]) {
   const port = readPort(args);
   const s = spinner();
 
-  intro("fluffejs");
+  intro("fluffy");
   s.start("Starting dev server");
 
-  const devServer = await createFluffejsDevServer({ port });
+  const devServer = await createFluffyTsDevServer({ port });
   await devServer.listen();
 
   s.stop("Dev server started");
   if (devServer.port !== port) {
-    log.warn(`Port ${port} was busy, so fluffejs used ${devServer.port}.`);
+    log.warn(`Port ${port} was busy, so fluffy used ${devServer.port}.`);
   }
   outro(`Ready at http://localhost:${devServer.port}`);
 }
@@ -70,10 +70,10 @@ function readPort(args: string[]) {
 }
 
 function printHelp() {
-  intro("fluffejs");
+  intro("fluffy");
   log.message(`Usage:
-  fluffejs dev [--port <port>]
-  fluffejs --help
-  fluffejs --version`);
+  fluffy dev [--port <port>]
+  fluffy --help
+  fluffy --version`);
   outro("Build tiny, learn deeply.");
 }

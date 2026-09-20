@@ -1,6 +1,6 @@
-# @fluffejs/core
+# @fluffy-ts/core
 
-Core framework runtime for fluffejs.
+Core framework runtime for fluffy-ts.
 
 Phase 1 owns:
 

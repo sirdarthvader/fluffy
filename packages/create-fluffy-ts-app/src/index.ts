@@ -21,19 +21,19 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 async function main() {
   console.log("\n");
-  console.log(mind(figlet.textSync("Create fluffejs App", { font: "Big Money-ne" })));
-  console.log(pc.cyan(" 🐶  Welcome to Create fluffejs App!  🐶\n"));
+  console.log(mind(figlet.textSync("Create fluffy-ts App", { font: "Big Money-ne" })));
+  console.log(pc.cyan(" 🐶  Welcome to Create fluffy-ts App!  🐶\n"));
   console.log(pc.cyan(" The comfiest way to build your next web app!"));
   console.log(
     pc.gray(
-      "Create fluffejs App is a CLI tool that helps you scaffold a new project with your favorite tools and configurations.",
+      "Create fluffy-ts App is a CLI tool that helps you scaffold a new project with your favorite tools and configurations.",
     ),
   );
 
   // Collect project name
   const projectName = await text({
     message: "Enter your project name:",
-    placeholder: "my-fluffejs-app",
+    placeholder: "my-fluffy-ts-app",
     validate: (input) => {
       if (input.length < 3) {
         return "Project name must be at least 3 characters long!";

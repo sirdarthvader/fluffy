@@ -1,14 +1,14 @@
 {
-  "name": "fluffejs-example-app",
+  "name": "fluffy-ts-example-app",
   "version": "0.0.0",
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "fluffejs dev --port 3210"
+    "dev": "fluffy dev --port 3210"
   },
   "dependencies": {
-    "@fluffejs/cli": "workspace:*",
-    "@fluffejs/core": "workspace:*",
+    "@fluffy-ts/cli": "workspace:*",
+    "@fluffy-ts/core": "workspace:*",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },

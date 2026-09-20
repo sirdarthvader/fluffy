@@ -1,13 +1,14 @@
 {
-  "name": "@fluffejs/create-app",
+  "name": "@fluffy-ts/create-app",
   "version": "0.0.2",
   "type": "module",
+  "description": "Project scaffolder for new fluffy-ts applications.",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/sirdarthvader/fluffy",
-    "directory": "packages/create-fluffejs-app"
+    "directory": "packages/create-fluffy-ts-app"
   },
   "files": [
     "dist",
@@ -21,7 +22,7 @@
     "node": ">=18.0.0"
   },
   "bin": {
-    "create-fluffejs-app": "./dist/index.js"
+    "create-fluffy-ts-app": "./dist/index.js"
   },
   "scripts": {
     "build": "tsup src/index.ts --format esm --dts --clean --minify",

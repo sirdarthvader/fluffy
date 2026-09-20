@@ -1,8 +1,8 @@
 {
-  "name": "@fluffejs/cli",
+  "name": "@fluffy-ts/cli",
   "version": "0.0.2",
   "type": "module",
-  "description": "",
+  "description": "Command-line interface for developing fluffy-ts applications.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "repository": {
@@ -24,7 +24,7 @@
     }
   },
   "bin": {
-    "fluffejs": "./dist/index.js"
+    "fluffy": "./dist/index.js"
   },
   "scripts": {
     "build": "tsup",
@@ -41,7 +41,7 @@
     "typescript": "^5.7.3"
   },
   "dependencies": {
-    "@fluffejs/core": "workspace:*",
+    "@fluffy-ts/core": "workspace:*",
     "@clack/prompts": "^0.10.0"
   }
 }

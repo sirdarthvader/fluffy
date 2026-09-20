@@ -6,7 +6,7 @@
     "outDir": "dist",
     "rootDir": "src",
     "paths": {
-      "@fluffejs/core": ["packages/core/dist/index.d.ts"]
+      "@fluffy-ts/core": ["packages/core/dist/index.d.ts"]
     }
   },
   "include": ["src"]
