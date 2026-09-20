@@ -5,11 +5,11 @@
  * Keeping this surface small makes it easier to see what the framework
  * currently promises to other packages.
  */
-export { createFluffyDevServer, createExpressServer } from "./server/express/server";
+export { createFluffejsDevServer, createExpressServer } from "./server/express/server";
 export { generateRoutes } from "./router/generateRoutes";
 export type {
-  FluffyConfig,
-  FluffyRoute,
+  FluffejsConfig,
+  FluffejsRoute,
   GetServerProps,
   ServerPropsContext,
 } from "./types/core-types";

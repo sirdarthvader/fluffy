@@ -1,6 +1,6 @@
 # Example App
 
-This app is the permanent Phase 1 fixture for Fluffy.
+This app is the permanent Phase 1 fixture for fluffejs.
 
 It should stay small until the framework is stable:
 

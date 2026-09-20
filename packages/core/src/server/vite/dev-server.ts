@@ -2,7 +2,7 @@
  * Small Vite middleware factory from the original prototype.
  *
  * The active Phase 1 dev server creates Vite directly so it can also register
- * Fluffy's virtual hydration entry. This helper is kept separate for now in
+ * fluffejs's virtual hydration entry. This helper is kept separate for now in
  * case later phases split Vite setup back into its own module.
  */
 import { createServer as createViteServer } from "vite";

@@ -1,4 +1,4 @@
-# @fluffejs/cli
+# @fluffejs/create-app
 
 ## 0.0.1
 
@@ -7,5 +7,3 @@
 - e330768: Add the first usable fluffejs dev workflow with file-based routing, server rendering,
   browser hydration, the `fluffejs dev` CLI, an example app, and repository formatting
   and linting checks.
-- Updated dependencies [e330768]
-  - @fluffejs/core@0.0.1

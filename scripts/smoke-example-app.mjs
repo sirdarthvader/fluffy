@@ -42,13 +42,13 @@ async function run() {
 
     const html = await fetchText(`${baseUrl}/`);
     await runAsyncStep("Assert server-rendered page HTML", () =>
-      assertIncludes(html, "<h1>Fluffy Example App</h1>", "server-rendered page"),
+      assertIncludes(html, "<h1>fluffejs Example App</h1>", "server-rendered page"),
     );
     await runAsyncStep("Assert HTML includes hydration script", () =>
-      assertIncludes(html, "/@fluffy/client-entry", "hydration script"),
+      assertIncludes(html, "/@fluffejs/client-entry", "hydration script"),
     );
 
-    const clientEntry = await fetchText(`${baseUrl}/@fluffy/client-entry`);
+    const clientEntry = await fetchText(`${baseUrl}/@fluffejs/client-entry`);
     await runAsyncStep("Assert hydration entry calls hydrateRoot", () =>
       assertIncludes(clientEntry, "hydrateRoot", "hydration entry"),
     );

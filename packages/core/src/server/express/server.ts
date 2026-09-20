@@ -1,5 +1,5 @@
 /**
- * Development server for Fluffy apps.
+ * Development server for fluffejs apps.
  *
  * This is the current Phase 1 runtime:
  * 1. discover routes from `src/pages`
@@ -13,13 +13,13 @@ import path from "path";
 import react from "@vitejs/plugin-react";
 import { createServer as createViteServer, ViteDevServer } from "vite";
 import { generateRoutes } from "../../router/generateRoutes";
-import type { FluffyConfig, FluffyRoute } from "../../types/core-types";
-import { renderFluffyApp } from "../renderer";
+import type { FluffejsConfig, FluffejsRoute } from "../../types/core-types";
+import { renderFluffejsApp } from "../renderer";
 
 /**
  * Create a local dev server for the app in the current working directory.
  */
-export async function createFluffyDevServer(config: FluffyConfig = {}) {
+export async function createFluffejsDevServer(config: FluffejsConfig = {}) {
   const appRoot = process.cwd();
   const app = express();
   const server = createServer(app);
@@ -33,14 +33,14 @@ export async function createFluffyDevServer(config: FluffyConfig = {}) {
     plugins: [
       react(),
       {
-        name: "fluffy-client-entry",
+        name: "fluffejs-client-entry",
         resolveId(id) {
-          if (id === "/@fluffy/client-entry") {
-            return "\0fluffy/client-entry";
+          if (id === "/@fluffejs/client-entry") {
+            return "\0fluffejs/client-entry";
           }
         },
         load(id) {
-          if (id === "\0fluffy/client-entry") {
+          if (id === "\0fluffejs/client-entry") {
             return createClientEntry(generateRoutes(pagesDir, appRoot));
           }
         },
@@ -67,7 +67,7 @@ export async function createFluffyDevServer(config: FluffyConfig = {}) {
       }
 
       const pageModule = await vite.ssrLoadModule(route.component);
-      const { html } = await renderFluffyApp(pageModule, route);
+      const { html } = await renderFluffejsApp(pageModule, route);
       const document = await renderDocument(req.originalUrl, html, vite);
 
       res.status(200).setHeader("Content-Type", "text/html").end(document);
@@ -92,7 +92,7 @@ export async function createFluffyDevServer(config: FluffyConfig = {}) {
   };
 }
 
-export const createExpressServer = createFluffyDevServer;
+export const createExpressServer = createFluffejsDevServer;
 
 /**
  * Find the requested dev-server port or the next free port after it.
@@ -135,7 +135,7 @@ function isPortAvailable(port: number) {
  * Vite transforms this string as a virtual module, so `import.meta.glob`
  * becomes concrete imports for the app's page files.
  */
-function createClientEntry(routes: FluffyRoute[]) {
+function createClientEntry(routes: FluffejsRoute[]) {
   const clientRoutes = routes.map(({ path, clientPath }) => ({
     path,
     clientPath,
@@ -165,7 +165,7 @@ const pageModule = route ? modules[route.clientPath] : null;
 const Page = pageModule && pageModule.default;
 
 if (!Page) {
-  throw new Error("Fluffy could not find a page component for " + window.location.pathname);
+  throw new Error("fluffejs could not find a page component for " + window.location.pathname);
 }
 
 hydrateRoot(document.getElementById("root"), React.createElement(Page));
@@ -181,11 +181,11 @@ async function renderDocument(url: string, appHtml: string, vite: ViteDevServer)
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Fluffy App</title>
+    <title>fluffejs App</title>
   </head>
   <body>
     <div id="root">${appHtml}</div>
-    <script type="module" src="/@fluffy/client-entry"></script>
+    <script type="module" src="/@fluffejs/client-entry"></script>
   </body>
 </html>`;
 
@@ -195,12 +195,12 @@ async function renderDocument(url: string, appHtml: string, vite: ViteDevServer)
 /**
  * Match a request path against the file-based route manifest.
  */
-function matchRoute(pathname: string, routes: FluffyRoute[]) {
+function matchRoute(pathname: string, routes: FluffejsRoute[]) {
   return routes.find((route) => routeToRegex(route.path).test(pathname));
 }
 
 /**
- * Convert Fluffy's `:param` and `*` path syntax into a simple matcher.
+ * Convert fluffejs's `:param` and `*` path syntax into a simple matcher.
  */
 function routeToRegex(routePath: string) {
   const pattern = routePath

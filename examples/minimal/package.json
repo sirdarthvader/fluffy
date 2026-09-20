@@ -1,10 +1,10 @@
 {
-  "name": "fluffy-example-app",
+  "name": "fluffejs-example-app",
   "version": "0.0.0",
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "fluffy dev --port 3210"
+    "dev": "fluffejs dev --port 3210"
   },
   "dependencies": {
     "@fluffejs/cli": "workspace:*",
