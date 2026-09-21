@@ -67,7 +67,7 @@ One sentence describing the user-visible capability.
 
 ## Phase 1: First Working Vertical Slice
 
-Status: Active
+Status: Complete
 
 ### Goal
 

@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import {
   outro,
   text,
@@ -30,26 +32,24 @@ async function main() {
     ),
   );
 
-  // Collect project name
-  const projectName = await text({
-    message: "Enter your project name:",
-    placeholder: "my-fluffy-ts-app",
-    validate: (input) => {
-      if (input.length < 3) {
-        return "Project name must be at least 3 characters long!";
-      }
-      if (input.length > 30) {
-        return "Project name must be at most 30 characters long!";
-      }
-      if (!/^[a-z0-9-]+$/.test(input)) {
-        return "Project name must be lowercase and contain only letters, numbers and dashes!";
-      }
-    },
-  });
+  const projectNameArg = process.argv.slice(2).find((arg) => !arg.startsWith("-"));
+  const projectName =
+    projectNameArg ??
+    (await text({
+      message: "Enter your project name:",
+      placeholder: "my-fluffy-ts-app",
+      validate: validateProjectName,
+    }));
 
   if (isCancel(projectName)) {
     cancel("Project creation cancelled!");
     return process.exit(0);
+  }
+
+  const projectNameError = validateProjectName(projectName);
+  if (projectNameError) {
+    cancel(pc.red(projectNameError));
+    return process.exit(1);
   }
 
   // Collect fetures
@@ -137,3 +137,15 @@ async function processTemplates(dir: string, data: any) {
 }
 
 main().catch(console.error);
+
+function validateProjectName(input: string) {
+  if (input.length < 3) {
+    return "Project name must be at least 3 characters long!";
+  }
+  if (input.length > 30) {
+    return "Project name must be at most 30 characters long!";
+  }
+  if (!/^[a-z0-9-]+$/.test(input)) {
+    return "Project name must be lowercase and contain only letters, numbers and dashes!";
+  }
+}
