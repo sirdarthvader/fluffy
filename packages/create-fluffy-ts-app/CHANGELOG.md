@@ -1,5 +1,11 @@
 # @fluffy-ts/create-app
 
+## 0.0.4
+
+### Patch Changes
+
+- c38c50f: Accept the app name passed to the create-app command.
+
 ## 0.0.3
 
 ### Patch Changes
