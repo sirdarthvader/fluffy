@@ -44,10 +44,17 @@
 
         <div class="quick-start" id="try-it" aria-label="Quick start commands">
           <p class="panel-label">Try it</p>
-          <pre><code>pnpm dlx @fluffy-ts/create-app my-app
+          <pre><code>pnpm dlx @fluffy-ts/create-app@latest my-app
 cd my-app
 pnpm install
 pnpm dev</code></pre>
+          <p class="registry-note">
+            If a private npm proxy has not synced the package yet, run
+            <code
+              >pnpm --registry=https://registry.npmjs.org dlx
+              @fluffy-ts/create-app@latest my-app</code
+            >.
+          </p>
         </div>
       </section>
 
@@ -173,7 +180,7 @@ pnpm dev</code></pre>
         </div>
         <ol class="timeline">
           <li>
-            <span>Active</span>
+            <span>Complete</span>
             <strong>Phase 1: vertical slice</strong>
             <p>Scaffold, dev server, route discovery, SSR, and hydration.</p>
           </li>
